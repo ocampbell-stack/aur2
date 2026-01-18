@@ -1,0 +1,16 @@
+# Aura development artifacts
+.aura/queue/
+.aura/output/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
