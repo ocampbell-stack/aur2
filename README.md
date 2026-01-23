@@ -256,19 +256,6 @@ aura check
 
 Expected: 18 files created, all prerequisites pass (except OPENAI_API_KEY which is optional).
 
-For detailed verification instructions, see [tests/tron/INSTRUCTIONS.md](tests/tron/INSTRUCTIONS.md).
-
-## Testing
-
-The `tests/tron/` directory contains a test fixture for development:
-
-```bash
-cd tests/tron
-rm -rf .aura .claude .beads
-aura init --force
-aura check
-```
-
 ## Troubleshooting
 
 ### "OPENAI_API_KEY not set"
@@ -317,9 +304,6 @@ vim .claude/commands/aura.act.md
 
 # Test immediately in Claude Code
 /aura.act test.wav
-
-# Verify it works for users too
-cd tests/tron && aura init --force
 ```
 
 ## Contributing
@@ -328,8 +312,7 @@ cd tests/tron && aura init --force
 2. Create a feature branch
 3. Edit commands in `.claude/commands/` or scripts in `.aura/scripts/`
 4. Test locally - changes are live for development
-5. Verify with `aura init --force` in `tests/tron/`
-6. Submit a pull request
+5. Submit a pull request
 
 ## License
 

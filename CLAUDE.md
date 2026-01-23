@@ -29,8 +29,6 @@ aura/
 │   ├── __init__.py          # Package init
 │   ├── cli.py               # Click CLI entry point
 │   └── init.py              # Scaffolding logic (copies from root .aura/ and .claude/)
-├── tests/
-│   └── tron/                # Test fixture for init
 ├── pyproject.toml           # Package metadata
 └── README.md                # User documentation
 ```
@@ -132,18 +130,11 @@ Aura is developed using aura. The commands and scripts at the repo root are the 
 1. Edit `.claude/commands/aura.act.md`
 2. Run `/aura.act` to test immediately
 3. Fix issues, repeat
-4. Once working, `aura init` in tron to verify distribution
 
 ### Testing Changes
 
 1. Make changes to commands in `.claude/commands/` or scripts in `.aura/scripts/`
 2. Test immediately - changes are live for aura development
-3. Optionally verify distribution with tron fixture:
-   ```bash
-   cd tests/tron
-   uv run aura init --force
-   ls -la .aura/scripts/
-   ```
 
 ### Adding a New Command
 
@@ -169,8 +160,6 @@ Aura is developed using aura. The commands and scripts at the repo root are the 
 3. Test immediately with `/aura.newcommand` in Claude Code
 
 4. Update README.md command reference
-
-5. Verify distribution: `cd tests/tron && uv run aura init --force`
 
 ### Adding a New Script
 
@@ -199,12 +188,6 @@ python .aura/scripts/generate_title.py --text "test memo"
 
 # Test transcription (requires audio file and API key)
 OPENAI_API_KEY=sk-xxx python .aura/scripts/transcribe.py test.m4a
-
-# Verify distribution to tron
-cd tests/tron
-rm -rf .aura .claude .beads
-uv run aura init
-ls -la .aura/scripts/
 ```
 
 ## Key Files
@@ -215,7 +198,6 @@ ls -la .aura/scripts/
 | `src/aura/init.py` | Scaffolding logic |
 | `.claude/commands/*.md` | Slash command sources (dogfood + template) |
 | `.aura/scripts/*.py` | Portable Python scripts (dogfood + template) |
-| `tests/tron/` | Test fixture for initialization |
 | `README.md` | User documentation |
 | `CLAUDE.md` | This file - agent guide |
 
@@ -225,13 +207,11 @@ ls -la .aura/scripts/
 
 1. Edit the command at repo root: `.claude/commands/<command>.md`
 2. Test immediately with `/command` in Claude Code
-3. Verify distribution: `cd tests/tron && uv run aura init --force`
 
 ### Change Script Behavior
 
 1. Edit the script at repo root: `.aura/scripts/<script>.py`
 2. Test directly: `python .aura/scripts/<script>.py`
-3. Verify distribution: `cd tests/tron && uv run aura init --force`
 
 ### Add Template File
 
@@ -239,7 +219,6 @@ ls -la .aura/scripts/
 2. The init logic auto-discovers files via glob patterns
 3. No code changes needed in init.py
 4. Test immediately (it's a working copy!)
-5. Verify distribution with `aura init --force` in tron
 
 ### Debug Init Issues
 
