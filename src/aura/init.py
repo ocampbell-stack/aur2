@@ -4,6 +4,8 @@ import shutil
 import subprocess
 from pathlib import Path
 
+from aura.config import DOT_AURA_CFG, DOT_CLAUDE_CFG
+
 BEADS_INSTALL_MSG = """
 Beads CLI (bd) is required but not installed.
 
@@ -50,10 +52,10 @@ def get_template_files():
             if src.is_file() and src.name != ".gitkeep":
                 rel = src.relative_to(aura_source)
                 # Skip queue, output, and .venv directories
-                if rel.parts and rel.parts[0] in ("queue", "output", ".venv"):
+                if rel.parts and rel.parts[0] in DOT_AURA_CFG["blacklist"]:
                     continue
                 # Skip .env file (contains secrets)
-                if rel.name == ".env":
+                if rel.name == ".env" and not DOT_AURA_CFG["copy_env"]:
                     continue
                 dst = Path(".aura") / rel
                 files.append((src, dst))
