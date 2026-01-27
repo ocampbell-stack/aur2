@@ -1,6 +1,7 @@
 # Aura development artifacts
 .aura/queue/
 .aura/output/
+.scratch/
 .env
 
 # Python
