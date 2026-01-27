@@ -31,6 +31,9 @@ Instead of writing code manually, you speak your ideas into voice memos. Aura tr
   ```bash
   npm install -g @beads/bd
   ```
+- **sox**: Audio recording
+  - macOS: `brew install sox`
+  - Ubuntu: `sudo apt-get install sox`
 - **ffmpeg**: Audio processing (for transcription)
   - macOS: `brew install ffmpeg`
   - Ubuntu: `sudo apt-get install ffmpeg`
@@ -86,11 +89,20 @@ aura check
 # Start Claude Code - context auto-loads via SessionStart hook
 ```
 
-### 4. Process a Voice Memo
+### 4. Record and Process a Voice Memo
 
 ```bash
-# Record a voice memo outside Claude (phone, recorder app, etc.)
-# Save as .aura/memo/queue/<title>/audio.wav
+# Activate the virtual environment
+source .aura/.venv/bin/activate
+
+# Record a voice memo (press Ctrl+C to stop recording)
+python .aura/scripts/record_memo.py
+
+# The script will:
+# 1. Record audio via sox
+# 2. Transcribe via OpenAI Whisper
+# 3. Generate a title from the transcript
+# 4. Save to .aura/memo/queue/<title>/
 
 # In Claude Code session:
 /aura.process_memo   # Process all queued memos
@@ -127,6 +139,7 @@ your-project/
 │   │   └── failed/           # Failed processing attempts
 │   ├── epics/                # Epic planning documents
 │   └── scripts/
+│       ├── record_memo.py    # Record → transcribe → title → queue
 │       ├── transcribe.py     # OpenAI Whisper transcription
 │       ├── generate_title.py # Intelligent title generation
 │       └── requirements.txt  # Script dependencies
@@ -159,14 +172,19 @@ your-project/
 ### Example 1: Voice Memo to Code
 
 ```bash
-# Record your idea (phone, desktop recorder, etc.)
-# Save to: .aura/memo/queue/add-dark-mode/audio.wav
+# Record your idea
+source .aura/.venv/bin/activate
+python .aura/scripts/record_memo.py
+# Press Ctrl+C when done speaking
+# → Transcribes audio automatically
+# → Generates title from content
+# → Saves to .aura/memo/queue/<title>/
 
 # In Claude Code session:
 /aura.process_memo
-# → Transcribes audio
+# → Reads transcript
 # → Acts on your request
-# → Moves to .aura/memo/processed/add-dark-mode_20260127_143022/
+# → Moves to .aura/memo/processed/<title>_<timestamp>/
 ```
 
 ### Example 2: Epic Planning
@@ -202,13 +220,28 @@ bd close <id> --reason "Implemented feature"
 
 Each Aura-initialized project is fully self-contained for voice processing.
 
-### Voice Memo Format
+### Recording a Voice Memo
 
-Place voice memos in the queue with this structure:
+Use the included script to record, transcribe, and queue memos in one step:
+```bash
+source .aura/.venv/bin/activate
+python .aura/scripts/record_memo.py [--max-duration SECONDS]
+```
+
+The script:
+1. Records audio via sox (press Ctrl+C to stop)
+2. Transcribes via OpenAI Whisper
+3. Generates a kebab-case title from the transcript
+4. Saves to `.aura/memo/queue/<title>/` with `audio.wav` and `transcript.txt`
+
+If transcription fails, audio is preserved in `.aura/memo/failed/`.
+
+### Voice Memo Directory Structure
+
 ```
 .aura/memo/queue/<title>/
-├── audio.wav    # or .m4a
-└── transcript.txt  # optional - created if missing
+├── audio.wav        # Recorded audio
+└── transcript.txt   # Whisper transcript
 ```
 
 ### Per-Project Setup

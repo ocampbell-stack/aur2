@@ -24,6 +24,7 @@ aura/
 │   │   └── failed/          # Failed processing
 │   ├── epics/               # Epic planning documents
 │   └── scripts/
+│       ├── record_memo.py   # Record → transcribe → title → queue
 │       ├── transcribe.py    # OpenAI Whisper transcription
 │       ├── generate_title.py # Intelligent title generation
 │       └── requirements.txt  # Script dependencies
@@ -95,9 +96,23 @@ The init process:
 | `aura.create_beads` | Convert epic tasks to beads tickets |
 | `aura.implement` | Implement beads in dependency order |
 
-## Voice Memo Queue Structure
+## Voice Memo Recording and Processing
 
-Voice memos are staged in a queue directory before processing.
+### Recording Memos
+
+Use `record_memo.py` to record, transcribe, and queue memos in one step:
+
+```bash
+python .aura/scripts/record_memo.py [--max-duration SECONDS]
+```
+
+The script:
+1. Records audio via sox (press Ctrl+C to stop)
+2. Transcribes via OpenAI Whisper
+3. Generates a kebab-case title from the transcript
+4. Saves to `.aura/memo/queue/<title>/` with `audio.wav` and `transcript.txt`
+
+If transcription fails, audio is preserved in `.aura/memo/failed/` with a timestamp-based title.
 
 ### Directory Layout
 
@@ -107,15 +122,15 @@ Voice memos are staged in a queue directory before processing.
 │   ├── queue/                   # Pending memos (git-ignored)
 │   │   └── <title>/
 │   │       ├── audio.wav        # Original recording
-│   │       └── transcript.txt   # Raw transcript (created if missing)
+│   │       └── transcript.txt   # Whisper transcript
 │   ├── processed/               # Successfully processed (git-ignored)
 │   │   └── <title>_<timestamp>/
 │   │       ├── audio.wav
 │   │       └── transcript.txt
-│   └── failed/                  # Failed processing (git-ignored)
-│       └── <title>_<timestamp>/
-│           ├── audio.wav
-│           └── transcript.txt
+│   └── failed/                  # Failed transcription (git-ignored)
+│       └── <title-or-timestamp>/
+│           ├── audio.wav        # Always preserved
+│           └── transcript.txt   # May be missing
 └── epics/                       # Epic planning documents
     └── <epic-name>.md
 ```
@@ -126,7 +141,13 @@ Titles are generated from transcript content by `generate_title.py`:
 - **kebab-case**: lowercase with hyphens (e.g., `bug-fix-authentication`)
 - **Max 50 characters**: truncated if necessary
 - **Filesystem-safe**: alphanumeric and hyphens only
-- **Fallback**: `memo-YYYYMMDD-HHMMSS` if generation fails
+- **Fallback**: `memo-YYYYMMDD-HHMMSS` if transcription fails
+
+### Exit Codes (record_memo.py)
+
+- `0`: Success - audio recorded, transcribed, titled, saved to queue/
+- `1`: Recording failed - sox error, no audio
+- `2`: Transcription failed - audio saved to failed/
 
 ### Skill Anatomy
 

@@ -11,24 +11,42 @@ Aura is a voice-driven development workflow. Voice memos are transcribed and tur
 | `/aura.create_beads <epic>` | Convert epic tasks to beads tickets |
 | `/aura.implement <epic or bead>` | Implement beads in dependency order |
 
+## Recording Voice Memos
+
+Use the record_memo.py script to record new voice memos:
+```bash
+python .aura/scripts/record_memo.py
+```
+
+This will:
+1. Record audio via sox (press Ctrl+C to stop)
+2. Transcribe via OpenAI Whisper
+3. Generate a title from the transcript
+4. Save to `.aura/memo/queue/<title>/`
+
+If transcription fails, audio is preserved in `.aura/memo/failed/`.
+
 ## Folder Structure
 
 ```
 .aura/
 ├── memo/
-│   ├── queue/       # Pending voice memos
-│   ├── processed/   # Successfully processed
-│   └── failed/      # Failed processing
-├── epics/           # Epic planning documents
-├── scripts/         # Python scripts for transcription
-└── aura.md          # This file (injected at session start)
+│   ├── queue/           # Pending voice memos (<title>/audio.wav + transcript.txt)
+│   ├── processed/       # Successfully processed (<title>_<timestamp>/)
+│   └── failed/          # Failed processing (audio preserved)
+├── epics/               # Epic planning documents
+├── scripts/
+│   ├── record_memo.py   # Record → transcribe → title → queue
+│   ├── transcribe.py    # OpenAI Whisper transcription
+│   └── generate_title.py # Intelligent title generation
+└── aura.md              # This file (injected at session start)
 ```
 
 ## Workflow
 
-1. **Record** - User records voice memo (outside Claude)
-2. **Queue** - Audio placed in `.aura/memo/queue/<title>/audio.wav`
-3. **Process** - `/aura.process_memo` transcribes and acts on requests
+1. **Record** - Run `python .aura/scripts/record_memo.py`
+2. **Queue** - Memo saved to `.aura/memo/queue/<title>/` with audio and transcript
+3. **Process** - `/aura.process_memo` acts on requests from memos
 4. **Plan** - `/aura.epic` for larger features needing breakdown
 5. **Track** - `/aura.create_beads` converts epic to trackable tickets
 6. **Implement** - `/aura.implement` works through tickets in order
