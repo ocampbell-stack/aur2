@@ -33,12 +33,14 @@ When given an epic path:
 
 When given a bead ID:
 
-1. **Show bead** - Run `bd show <id>` for details
-2. **Implement** - Do the work described
-3. **Close** - Run `bd close <id> --reason "<what was done>" --suggest-next`
+1. **Show bead** - Run `bd show <id>` for details and comments (prior agents leave context here)
+2. **Read epic** - Follow the epic path in the bead description to understand overall context
+3. **Implement** - Do the work described
+4. **Close** - Run `bd close <id> --reason "<what was done>" --suggest-next`
 
 ## Implementation Guidelines
 
+- A bead's work may be research, code, verification, or documentation — read the description, do what it asks, close with what you delivered
 - Read relevant files before making changes
 - Follow existing code patterns in the codebase
 - Make minimal, focused changes
@@ -53,6 +55,5 @@ When given a bead ID:
 
 ## Error Handling
 
-- If implementation fails, do not close the bead
-- Report what failed and what was attempted
-- User can retry or modify the approach
+- If implementation fails, leave a comment (`bd comments add <id> "<what failed>"`) and do not close the bead
+- If a downstream bead (verification) fails, reopen the upstream bead and leave a comment explaining what needs fixing

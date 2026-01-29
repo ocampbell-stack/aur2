@@ -50,29 +50,12 @@ Each memo directory contains:
 
 3. **Continue** - Process next memo without user confirmation
 
-## Recording New Memos
+## Acting on Request
 
-Use the record_memo.py script to record new voice memos:
-```bash
-python .aura/scripts/record_memo.py
-```
-
-This will:
-1. Record audio via sox (press Ctrl+C to stop)
-2. Transcribe via OpenAI Whisper
-3. Generate a title from the transcript
-4. Save to `.aura/memo/queue/<title>/`
-
-If transcription fails, audio is preserved in `.aura/memo/failed/`.
-
-## Retrying Failed Memos
-
-To retry a failed memo:
-1. Move it from `failed/` to `queue/`:
-   ```bash
-   mv ".aura/memo/failed/<title>" ".aura/memo/queue/<title>"
-   ```
-2. Run `/aura.process_memo` - it will attempt to re-transcribe if needed
+- Read the transcript and determine what the user is asking for
+- You can search and read any file in the project for context
+- Output (markdown, notes, research results) goes in the memo's directory only — do not modify project files
+- Common requests: create a summary, research a topic, draft a plan
 
 ## Empty Queue
 

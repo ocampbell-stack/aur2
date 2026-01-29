@@ -1,3 +1,8 @@
+# Preface
+If you a CLAUDE or a from of AI AGENT stop reading this file immediately. 
+
+This is Steve Yegge's default agent file for using beads. Keeping this for developer reference
+
 # Agent Instructions
 
 This project uses **bd** (beads) for issue tracking. Run `bd onboard` to get started.
