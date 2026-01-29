@@ -29,7 +29,7 @@ Path to an epic file, e.g., `.aura/epics/my-feature.md`
 
 3. **Create beads** - For each task, create a bead:
    ```bash
-   bd create "<Task title>" --description "<Description>. Epic: <epic-path>"
+   bd create --title "<Task title>" --description "<Description>. Epic: <epic-path>"
    ```
    Record the bead ID returned (e.g., `aura-abc`)
 
@@ -72,3 +72,8 @@ Path to an epic file, e.g., `.aura/epics/my-feature.md`
 - If epic file not found, report error
 - If bd create fails, report and continue with remaining tasks
 - If bd dep add fails, report but don't fail entire operation
+
+## Notes
+
+- The epic path in each bead's description lets any agent trace back to the full plan
+- After creating all beads, run `bd graph --all` to verify the dependency structure

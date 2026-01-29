@@ -9,10 +9,10 @@ Two-phase developer-driven effort. Phase 1 (nica2): manually refine all markdown
 ### Phase 1: Manual Markdown Edits (branch: nica2)
 
 1. [x] Review and edit `.aura/aura.md`
-2. [ ] Review and edit `.claude/skills/aura.process_memo/SKILL.md`
-3. [ ] Review and edit `.claude/skills/aura.epic/SKILL.md`
-4. [ ] Review and edit `.claude/skills/aura.create_beads/SKILL.md`
-5. [ ] Review and edit `.claude/skills/aura.implement/SKILL.md`
+2. [x] Review and edit `.claude/skills/aura.process_memo/SKILL.md`
+3. [x] Review and edit `.claude/skills/aura.epic/SKILL.md`
+4. [x] Review and edit `.claude/skills/aura.create_beads/SKILL.md`
+5. [x] Review and edit `.claude/skills/aura.implement/SKILL.md`
 6. [ ] Review and edit `CLAUDE.md`
 7. [ ] Review and edit `README.md`
 8. [ ] Commit nica2 as first-pass baseline
