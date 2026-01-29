@@ -16,7 +16,7 @@ The argument is a vision description - what the user wants to achieve.
 
 ## Output Location
 
-Write the epic to `.aura/epics/<kebab-case-name>.md`
+Write the epic to `.aura/epics/<kebab-case-name>/epic.md`
 
 Generate the name from the vision (max 50 chars, lowercase, hyphens).
 
@@ -69,6 +69,7 @@ Generate the name from the vision (max 50 chars, lowercase, hyphens).
 ## Guidelines
 
 - Tasks should be actionable and specific
+- A task should do one thing: research, implement, or verify — not all three
 - Each task should have clear acceptance criteria implied by description
 - Dependencies should form a DAG (no cycles)
 - Number tasks sequentially across phases for easy dependency reference
