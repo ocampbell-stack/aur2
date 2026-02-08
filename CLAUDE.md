@@ -34,11 +34,21 @@ aura/
 │   ├── settings.json        # SessionStart hook configuration
 │   ├── templates/           # Plan templates (feature.md, bug.md)
 │   └── skills/              # Working copy (dogfood) AND template source
+│       ├── aura.execute/
+│       │   └── SKILL.md
 │       ├── aura.process_visions/
 │       │   └── SKILL.md
 │       ├── aura.scope/
 │       │   └── SKILL.md
-│       └── aura.execute/
+│       ├── hive.advise/
+│       │   └── SKILL.md
+│       ├── hive.deliver/
+│       │   └── SKILL.md
+│       ├── hive.groom/
+│       │   └── SKILL.md
+│       ├── hive.ingest/
+│       │   └── SKILL.md
+│       └── hive.maintain/
 │           └── SKILL.md
 ├── src/aura/
 │   ├── __init__.py          # Package init
@@ -96,6 +106,13 @@ The init process:
 | `aura.process_visions` | Process all visions from queue (text + audio) |
 | `aura.scope` | Research codebase and produce a scope file from a template |
 | `aura.execute` | Create beads from a scope file and implement autonomously |
+| `hive.ingest` | Ingest documents into the knowledge base (hive-mind) |
+| `hive.groom` | Audit KB for staleness, inconsistencies, and gaps (hive-mind) |
+| `hive.deliver` | Produce external deliverables grounded in KB context (hive-mind) |
+| `hive.advise` | Analyze communications and recommend actions (hive-mind) |
+| `hive.maintain` | Plan and execute maintenance or improvements to tooling (hive-mind) |
+
+> `hive.*` skills are designed for the [hive-mind](https://github.com/ocampbell-stack/hive-mind) repo but are maintained here as the source of truth.
 
 ## Visions Pipeline
 
@@ -242,6 +259,8 @@ Aura is developed using aura. The skills and scripts at the repo root are the sa
 
 4. Update README.md skill reference
 
+5. **Namespace convention**: Use `aura.*` for general-purpose skills that work in any repo. Use `hive.*` for skills specific to hive-mind knowledge base operations. The namespace prefix determines which repo the skill targets.
+
 ### Adding a New Script
 
 1. Create script at repo root:
@@ -288,6 +307,10 @@ uv run aura init --dry-run
 | `.aura/scripts/*.py` | Portable Python scripts (dogfood + template) |
 | `README.md` | User documentation |
 | `CLAUDE.md` | This file - agent guide |
+
+### Downstream Repos
+
+This repo is the **source of truth** for skills deployed to [hive-mind](https://github.com/ocampbell-stack/hive-mind). Hive-mind gitignores `.claude/skills/` and `.claude/templates/` — they come from here via `aura init --force`. Hive-mind has a custom SessionStart hook (adds `bd prime` + KB INDEX.md), so `.claude/settings.json` must be backed up and restored around `aura init --force` (the merge logic appends a duplicate hook).
 
 ## Common Tasks
 

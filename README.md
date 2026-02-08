@@ -100,13 +100,25 @@ python .aura/scripts/record_memo.py
 
 ## Skills Reference
 
-Aura provides 3 focused skills:
+Aura provides 8 skills across two namespaces:
+
+**`aura.*` — General-purpose** (work in any aura-initialized repo):
 
 | Skill | Description | Example |
 |-------|-------------|---------|
 | `/aura.process_visions` | Process all visions from queue (text + audio) | `/aura.process_visions` |
 | `/aura.scope` | Research codebase and produce a scope file | `/aura.scope "user authentication system"` |
 | `/aura.execute` | Create beads from scope and implement autonomously | `/aura.execute .aura/plans/queue/user-auth/scope.md` |
+
+**`hive.*` — Knowledge base operations** (designed for [hive-mind](https://github.com/ocampbell-stack/hive-mind)):
+
+| Skill | Description |
+|-------|-------------|
+| `/hive.ingest` | Ingest documents into the knowledge base |
+| `/hive.groom` | Audit KB for staleness, inconsistencies, and gaps |
+| `/hive.deliver` | Produce external deliverables grounded in KB context |
+| `/hive.advise` | Analyze communications and recommend actions |
+| `/hive.maintain` | Plan and execute maintenance or improvements to tooling |
 
 ### Context Injection
 
@@ -139,13 +151,43 @@ your-project/
     ├── settings.json         # SessionStart hook configuration
     ├── templates/            # Plan templates (feature.md, bug.md)
     └── skills/
+        ├── aura.execute/
+        │   └── SKILL.md
         ├── aura.process_visions/
         │   └── SKILL.md
         ├── aura.scope/
         │   └── SKILL.md
-        └── aura.execute/
+        ├── hive.advise/
+        │   └── SKILL.md
+        ├── hive.deliver/
+        │   └── SKILL.md
+        ├── hive.groom/
+        │   └── SKILL.md
+        ├── hive.ingest/
+        │   └── SKILL.md
+        └── hive.maintain/
             └── SKILL.md
 ```
+
+## Using with Hive-Mind
+
+This aura fork is the **source of truth** for all skills used in [hive-mind](https://github.com/ocampbell-stack/hive-mind). The hive-mind repo gitignores `.claude/skills/` and `.claude/templates/` — they are deployed from here.
+
+**Updating skills in hive-mind:**
+
+```bash
+cd ~/Sandbox/agent-workspace/hive-mind-main   # or agent-alpha, agent-beta
+# 1. Backup settings.json (hive-mind has a custom SessionStart hook)
+cp .claude/settings.json .claude/settings.json.bak
+# 2. Deploy latest skills
+aura init --force
+# 3. Restore settings.json
+cp .claude/settings.json.bak .claude/settings.json
+```
+
+The backup/restore is needed because hive-mind's SessionStart hook (which adds `bd prime` + KB INDEX.md loading) doesn't match aura's default template, so `aura init --force` appends a duplicate hook entry instead of recognizing the existing one.
+
+`--force` overwrites skill files and templates but preserves `.aura/visions/` and `.aura/plans/` content.
 
 ## Configuration
 
