@@ -134,11 +134,14 @@ def remove(force, dry_run, keep_memos):
         else:
             targets.append(aura_dir)
 
-    # .claude/skills aura directories
+    # .claude/skills — remove any skill managed by aura (source-of-truth driven)
     skills_dir = Path(".claude/skills")
     if skills_dir.exists():
+        from aura.init import AURA_ROOT
+        aura_skills_dir = AURA_ROOT / ".claude" / "skills"
+        managed_skills = {d.name for d in aura_skills_dir.iterdir() if d.is_dir()} if aura_skills_dir.exists() else set()
         for item in skills_dir.iterdir():
-            if item.is_dir() and item.name.startswith("aura."):
+            if item.is_dir() and item.name in managed_skills:
                 targets.append(item)
 
     # .beads directory
