@@ -1,6 +1,4 @@
-# Aura development artifacts
-.aura/queue/
-.aura/output/
+# Aur2 development artifacts
 .scratch/
 .env
 

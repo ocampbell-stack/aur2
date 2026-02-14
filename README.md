@@ -24,7 +24,7 @@ Aur2 wraps your repository with Claude Code skills and beads-based issue trackin
 - **Claude Code**: [Install Claude Code](https://claude.ai/claude-code)
 - **beads**: Issue tracking CLI (required) - [GitHub](https://github.com/steveyegge/beads)
   ```bash
-  npm install -g @beads/bd
+  brew tap steveyegge/beads && brew install beads
   ```
 - **sox**: Audio recording
   - macOS: `brew install sox`
@@ -196,8 +196,6 @@ your-project/
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `OPENAI_API_KEY` | Yes | API key for transcription and title generation |
-| `AURA_TRANSCRIPTION_MODEL` | No | Override transcription model (default: gpt-4o-mini-transcribe) |
-| `AURA_TITLE_MODEL` | No | Override title model (default: gpt-4o-mini) |
 
 ## Workflow Examples
 
