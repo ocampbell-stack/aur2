@@ -42,7 +42,7 @@ Improve tooling, scripts, and infrastructure for the hive-mind system.
 6. **Update documentation**
    - Update CLAUDE.md if agent behavior should change
    - Update protocols if verification or process standards change
-   - Update skill SKILL.md files if skill behavior changes
+   - **Skills note**: Skills (`.claude/skills/`) are gitignored in hive-mind and deployed from [aur2](https://github.com/ocampbell-stack/aur2). Do NOT edit skills in this repo — changes are lost on the next `aur2 init --force`. If skill changes are needed, create a follow-up bead: `bd create "Aur2: update {skill} - {what needs changing}" -t task`
 
 7. **Update KB**
    - Document the change in appropriate KB section

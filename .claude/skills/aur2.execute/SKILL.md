@@ -29,7 +29,7 @@ Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
 
 3. **Create beads** - For each task, create a bead:
    ```bash
-   bd create --title "<Task title>" --description "<Description>. Epic: <scope-path>"
+   bd create "<Task title>" -t task -d "<Description>. Epic: <scope-path>"
    ```
    Record the bead ID returned
 
