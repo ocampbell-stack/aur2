@@ -1,29 +1,30 @@
-"""Aura CLI entry point."""
+"""Aur2 CLI entry point."""
 
 import click
 
-from aura.init import init_aura, BeadsNotFoundError
+from aur2.init import init_aur2, BeadsNotFoundError
 
 
 @click.group()
 @click.version_option()
 def main():
-    """Aura - Agentic workflow layer for codebases."""
+    """Aur2 - Agentic scaffolding for knowledge work."""
     pass
 
 
 @main.command()
 @click.option("--force", is_flag=True, help="Overwrite existing files")
 @click.option("--dry-run", is_flag=True, help="Show what would be created")
-def init(force, dry_run):
-    """Initialize Aura in current directory."""
+@click.option("--skip-settings", is_flag=True, help="Skip merging SessionStart hook into settings.json")
+def init(force, dry_run, skip_settings):
+    """Initialize Aur2 in current directory."""
     if dry_run:
         click.echo("Dry run - no files will be created:\n")
     else:
-        click.echo("Initializing Aura...\n")
+        click.echo("Initializing Aur2...\n")
 
     try:
-        results = init_aura(force=force, dry_run=dry_run)
+        results = init_aur2(force=force, dry_run=dry_run, skip_settings=skip_settings)
     except BeadsNotFoundError as e:
         click.echo(str(e), err=True)
         raise SystemExit(1)
@@ -44,8 +45,8 @@ def init(force, dry_run):
     if not dry_run:
         created = len(results["created"])
         skipped = len(results["skipped"])
-        click.echo(f"\nAura initialized! ({created} created, {skipped} skipped)")
-        click.echo("Start Claude Code - aura context loads automatically via SessionStart hook.")
+        click.echo(f"\nAur2 initialized! ({created} created, {skipped} skipped)")
+        click.echo("Start Claude Code - aur2 context loads automatically via SessionStart hook.")
 
 
 @main.command()
@@ -55,15 +56,15 @@ def check():
     import shutil
     from pathlib import Path
 
-    # Verify .aura directory exists first
-    aura_dir = Path(".aura")
-    if not aura_dir.exists():
-        click.echo("Error: .aura directory not found.", err=True)
-        click.echo("Run 'aura init' to initialize Aura in this directory.", err=True)
+    # Verify .aur2 directory exists first
+    aur2_dir = Path(".aur2")
+    if not aur2_dir.exists():
+        click.echo("Error: .aur2 directory not found.", err=True)
+        click.echo("Run 'aur2 init' to initialize Aur2 in this directory.", err=True)
         raise SystemExit(1)
 
-    # Load .aura/.env if it exists
-    env_file = Path(".aura/.env")
+    # Load .aur2/.env if it exists
+    env_file = Path(".aur2/.env")
     if env_file.exists():
         from dotenv import load_dotenv
         load_dotenv(env_file)
@@ -114,32 +115,32 @@ def format_size(bytes: int) -> str:
 @main.command()
 @click.option("--force", is_flag=True, help="Skip confirmation prompt")
 @click.option("--dry-run", is_flag=True, help="Show what would be deleted")
-@click.option("--keep-memos", is_flag=True, help="Preserve .aura/memo directory")
+@click.option("--keep-memos", is_flag=True, help="Preserve .aur2/memo directory")
 def remove(force, dry_run, keep_memos):
-    """Remove Aura from current directory."""
+    """Remove Aur2 from current directory."""
     import shutil
     from pathlib import Path
 
-    # Find all Aura-related files/directories
+    # Find all Aur2-related files/directories
     targets = []
 
-    # .aura directory
-    aura_dir = Path(".aura")
-    if aura_dir.exists():
+    # .aur2 directory
+    aur2_dir = Path(".aur2")
+    if aur2_dir.exists():
         if keep_memos:
             # List individual subdirs except memo
-            for item in aura_dir.iterdir():
+            for item in aur2_dir.iterdir():
                 if item.name != "memo":
                     targets.append(item)
         else:
-            targets.append(aura_dir)
+            targets.append(aur2_dir)
 
-    # .claude/skills — remove any skill managed by aura (source-of-truth driven)
+    # .claude/skills — remove any skill managed by aur2 (source-of-truth driven)
     skills_dir = Path(".claude/skills")
     if skills_dir.exists():
-        from aura.init import AURA_ROOT
-        aura_skills_dir = AURA_ROOT / ".claude" / "skills"
-        managed_skills = {d.name for d in aura_skills_dir.iterdir() if d.is_dir()} if aura_skills_dir.exists() else set()
+        from aur2.init import AUR2_ROOT
+        aur2_skills_dir = AUR2_ROOT / ".claude" / "skills"
+        managed_skills = {d.name for d in aur2_skills_dir.iterdir() if d.is_dir()} if aur2_skills_dir.exists() else set()
         for item in skills_dir.iterdir():
             if item.is_dir() and item.name in managed_skills:
                 targets.append(item)
@@ -150,7 +151,7 @@ def remove(force, dry_run, keep_memos):
         targets.append(beads_dir)
 
     if not targets:
-        click.echo("No Aura files found in current directory.")
+        click.echo("No Aur2 files found in current directory.")
         return
 
     # Show what will be deleted
@@ -191,7 +192,7 @@ def remove(force, dry_run, keep_memos):
         click.echo(f"\nCompleted with {len(errors)} errors.", err=True)
         raise SystemExit(1)
     else:
-        click.echo("\nAura removed successfully!")
+        click.echo("\nAur2 removed successfully!")
 
 
 if __name__ == "__main__":

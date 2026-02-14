@@ -9,6 +9,10 @@ Analyze communications and recommend actions based on KB context.
 
 ## Instructions
 
+0. **Determine operating mode**
+   - Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+   - If in autonomous mode, follow the full lifecycle (sync, branch, work, commit, PR)
+
 1. **Read the provided communication**
    - Accept: meeting notes, chat threads, emails, Slack messages, etc.
    - Identify: participants, topics discussed, decisions made, action items, tone
@@ -52,3 +56,6 @@ Analyze communications and recommend actions based on KB context.
 6. **Create follow-up tasks**
    - Create beads tasks for any action items that need tracking
    - `bd create "Follow up: {action item description}"`
+
+7. **Submit**
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` to commit, push, create PR, and record in beads

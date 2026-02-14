@@ -9,6 +9,10 @@ Improve tooling, scripts, and infrastructure for the hive-mind system.
 
 ## Instructions
 
+0. **Determine operating mode**
+   - Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+   - If in autonomous mode, follow the full lifecycle (sync, branch, work, commit, PR)
+
 1. **Read the maintenance request** or identify improvement opportunity
    - Types: bug fix, script improvement, new automation, protocol update, skill refinement
 
@@ -19,11 +23,10 @@ Improve tooling, scripts, and infrastructure for the hive-mind system.
    - Check `.claude/settings.json` for hook configuration
 
 3. **Scope the change**
-   - If the change is complex, use `/aura.scope` for task decomposition
+   - If the change is complex, use `/aur2.scope` for task decomposition
    - If simple, proceed directly
 
-4. **Implement on a feature branch**
-   - Create branch: `feat/maintain-{description}`
+4. **Implement**
    - Make changes
    - Test changes:
      - Verify hooks fire correctly (check `.claude/settings.json`)
@@ -40,10 +43,9 @@ Improve tooling, scripts, and infrastructure for the hive-mind system.
    - Document the change in appropriate KB section
    - Update INDEX.md
 
-7. **Submit PR**
-   - Use the PR template from protocols/pr-template.md
-   - Include what was changed and why
-   - Include test results
+7. **Submit**
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` to commit, push, create PR, and record in beads
+   - Include what was changed and why, plus test results
 
 ## Common Maintenance Tasks
 - Update SessionStart hook for new context sources

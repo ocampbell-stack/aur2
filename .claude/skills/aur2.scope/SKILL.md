@@ -1,5 +1,5 @@
 ---
-name: aura.scope
+name: aur2.scope
 description: Research codebase and produce a scope file from a template
 argument-hint: <vision description>
 disable-model-invocation: true
@@ -32,11 +32,11 @@ The argument is a vision description - what the user wants to achieve.
 
 4. **Populate template** - Fill in every section of the template with findings from research. Replace all `<placeholder>` markers with real content.
 
-5. **Write scope file** - Save to `.aura/plans/queue/<kebab-case-name>/scope.md`
+5. **Write scope file** - Save to `.aur2/plans/queue/<kebab-case-name>/scope.md`
    - Generate name from the vision (max 50 chars, lowercase, hyphens)
    - Create the subdirectory if needed
 
-6. **Report** - Tell the user where the scope file was saved and suggest reviewing it before running `/aura.execute`
+6. **Report** - Tell the user where the scope file was saved and suggest reviewing it before running `/aur2.execute`
 
 ## Task Format
 

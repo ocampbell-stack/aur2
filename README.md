@@ -1,10 +1,12 @@
-# Aura
+# Aur2
 
-Agentic scaffolding for codebases. Skills, issue tracking, and vision capture — wired together.
+Agentic scaffolding for knowledge work. Skills, issue tracking, and vision capture — wired together.
 
-## What is Aura?
+> Forked from [cdimoush/aura](https://github.com/cdimoush/aura) (coding-focused). Aur2 applies the same agentic scaffolding concept to general work tasks, using markdown as the primary "language" in a version-controlled knowledge base.
 
-Aura wraps your repository with Claude Code skills and beads-based issue tracking to make planning and implementing easier for both agents and humans. Visions (text or audio) provide hands-free idea capture.
+## What is Aur2?
+
+Aur2 wraps your repository with Claude Code skills and beads-based issue tracking to support both agents and human operators. It provides the scaffolding layer for [hive-mind](https://github.com/ocampbell-stack/hive-mind) — a template for building persistent, version-controlled knowledge bases managed by parallel AI agents.
 
 **Key Features:**
 - **Beads integration** — dependency-aware issue tracking via `bd` CLI
@@ -31,27 +33,27 @@ Aura wraps your repository with Claude Code skills and beads-based issue trackin
   - macOS: `brew install ffmpeg`
   - Ubuntu: `sudo apt-get install ffmpeg`
 
-### Install Aura
+### Install Aur2
 
 ```bash
-git clone https://github.com/cdimoush/aura.git
-cd aura
+git clone https://github.com/ocampbell-stack/aur2.git
+cd aur2
 uv venv && source .venv/bin/activate
-uv pip install -e . -r .aura/scripts/requirements.txt
-aura --version  # Verify installation
+uv pip install -e . -r .aur2/scripts/requirements.txt
+aur2 --version  # Verify installation
 ```
 
 ## Quick Start
 
-### 1. Initialize Aura in Your Project
+### 1. Initialize Aur2 in Your Project
 
 ```bash
 cd your-project
-aura init
+aur2 init
 ```
 
 This creates:
-- `.aura/` - Configuration, scripts, visions and plans directories
+- `.aur2/` - Configuration, scripts, visions and plans directories
 - `.claude/skills/` - Slash command skills for Claude Code
 - `.claude/templates/` - Plan templates (feature, bug)
 - `.claude/settings.json` - SessionStart hook for automatic context
@@ -61,24 +63,24 @@ This creates:
 
 ```bash
 # Copy the example env file
-cp .aura/.env.example .aura/.env
+cp .aur2/.env.example .aur2/.env
 
 # Add your OpenAI API key (edit the file with your key)
-echo "OPENAI_API_KEY=sk-your-key" >> .aura/.env
+echo "OPENAI_API_KEY=sk-your-key" >> .aur2/.env
 
-# Create a virtual environment for aura scripts
-uv venv .aura/.venv
-source .aura/.venv/bin/activate
+# Create a virtual environment for aur2 scripts
+uv venv .aur2/.venv
+source .aur2/.venv/bin/activate
 
 # Install script dependencies
-uv pip install -r .aura/scripts/requirements.txt
+uv pip install -r .aur2/scripts/requirements.txt
 ```
 
 ### 3. Verify Setup
 
 ```bash
-# Check aura installation
-aura check
+# Check aur2 installation
+aur2 check
 
 # Start Claude Code - context auto-loads via SessionStart hook
 ```
@@ -87,28 +89,28 @@ aura check
 
 ```bash
 # Option A: Text vision — just drop a file
-echo "Add user authentication with OAuth" > .aura/visions/queue/add-auth.txt
+echo "Add user authentication with OAuth" > .aur2/visions/queue/add-auth.txt
 
 # Option B: Audio vision — record and transcribe
-source .aura/.venv/bin/activate
-python .aura/scripts/record_memo.py
+source .aur2/.venv/bin/activate
+python .aur2/scripts/record_memo.py
 # Press Ctrl+C to stop recording
 
 # In Claude Code session:
-/aura.process_visions   # Process all queued visions
+/aur2.process_visions   # Process all queued visions
 ```
 
 ## Skills Reference
 
-Aura provides 8 skills across two namespaces:
+Aur2 provides skills across two namespaces:
 
-**`aura.*` — General-purpose** (work in any aura-initialized repo):
+**`aur2.*` — General-purpose** (work in any aur2-initialized repo):
 
 | Skill | Description | Example |
 |-------|-------------|---------|
-| `/aura.process_visions` | Process all visions from queue (text + audio) | `/aura.process_visions` |
-| `/aura.scope` | Research codebase and produce a scope file | `/aura.scope "user authentication system"` |
-| `/aura.execute` | Create beads from scope and implement autonomously | `/aura.execute .aura/plans/queue/user-auth/scope.md` |
+| `/aur2.process_visions` | Process all visions from queue (text + audio) | `/aur2.process_visions` |
+| `/aur2.scope` | Research codebase and produce a scope file | `/aur2.scope "user authentication system"` |
+| `/aur2.execute` | Create beads from scope and implement autonomously | `/aur2.execute .aur2/plans/queue/user-auth/scope.md` |
 
 **`hive.*` — Knowledge base operations** (designed for [hive-mind](https://github.com/ocampbell-stack/hive-mind)):
 
@@ -119,19 +121,35 @@ Aura provides 8 skills across two namespaces:
 | `/hive.deliver` | Produce external deliverables grounded in KB context |
 | `/hive.advise` | Analyze communications and recommend actions |
 | `/hive.maintain` | Plan and execute maintenance or improvements to tooling |
+| `/hive.iterate` | Address PR review feedback on an existing feature branch |
 
 ### Context Injection
 
-Aura automatically injects context at session start via Claude Code's hook system. No need to run a prime command - the aura context loads automatically when you start a session.
+Aur2 automatically injects context at session start via Claude Code's hook system. No need to run a prime command - the aur2 context loads automatically when you start a session.
+
+## Using with Hive-Mind
+
+This repo is the **source of truth** for all skills used in [hive-mind](https://github.com/ocampbell-stack/hive-mind). The hive-mind repo gitignores `.claude/skills/` and `.claude/templates/` — they are deployed from here.
+
+**Updating skills in hive-mind:**
+
+```bash
+cd ~/path/to/your/hive-mind
+aur2 init --force --skip-settings
+```
+
+The `--skip-settings` flag preserves the hive-mind repo's custom SessionStart hook (which adds `bd prime` + KB INDEX.md loading on top of the base AUR2.md injection).
+
+`--force` overwrites skill files and templates but preserves `.aur2/visions/` and `.aur2/plans/` content.
 
 ## Directory Structure
 
-After `aura init`:
+After `aur2 init`:
 
 ```
 your-project/
-├── .aura/
-│   ├── AURA.md               # Context file (auto-injected at session start)
+├── .aur2/
+│   ├── AUR2.md              # Context file (auto-injected at session start)
 │   ├── .gitignore            # Ignores visions contents, .env, .venv/
 │   ├── .venv/                # Virtual environment for scripts
 │   ├── visions/
@@ -151,11 +169,11 @@ your-project/
     ├── settings.json         # SessionStart hook configuration
     ├── templates/            # Plan templates (feature.md, bug.md)
     └── skills/
-        ├── aura.execute/
+        ├── aur2.execute/
         │   └── SKILL.md
-        ├── aura.process_visions/
+        ├── aur2.process_visions/
         │   └── SKILL.md
-        ├── aura.scope/
+        ├── aur2.scope/
         │   └── SKILL.md
         ├── hive.advise/
         │   └── SKILL.md
@@ -165,29 +183,11 @@ your-project/
         │   └── SKILL.md
         ├── hive.ingest/
         │   └── SKILL.md
+        ├── hive.iterate/
+        │   └── SKILL.md
         └── hive.maintain/
             └── SKILL.md
 ```
-
-## Using with Hive-Mind
-
-This aura fork is the **source of truth** for all skills used in [hive-mind](https://github.com/ocampbell-stack/hive-mind). The hive-mind repo gitignores `.claude/skills/` and `.claude/templates/` — they are deployed from here.
-
-**Updating skills in hive-mind:**
-
-```bash
-cd ~/Sandbox/agent-workspace/hive-mind-main   # or agent-alpha, agent-beta
-# 1. Backup settings.json (hive-mind has a custom SessionStart hook)
-cp .claude/settings.json .claude/settings.json.bak
-# 2. Deploy latest skills
-aura init --force
-# 3. Restore settings.json
-cp .claude/settings.json.bak .claude/settings.json
-```
-
-The backup/restore is needed because hive-mind's SessionStart hook (which adds `bd prime` + KB INDEX.md loading) doesn't match aura's default template, so `aura init --force` appends a duplicate hook entry instead of recognizing the existing one.
-
-`--force` overwrites skill files and templates but preserves `.aura/visions/` and `.aura/plans/` content.
 
 ## Configuration
 
@@ -201,115 +201,35 @@ The backup/restore is needed because hive-mind's SessionStart hook (which adds `
 
 ## Workflow Examples
 
-### Example 1: Vision to Code
+### Example 1: Vision to Action
 
 ```bash
 # Option A: Text vision
-echo "Add rate limiting to the API" > .aura/visions/queue/rate-limiting.txt
+echo "Prepare Q1 status update for leadership" > .aur2/visions/queue/q1-status.txt
 
 # Option B: Audio vision
-source .aura/.venv/bin/activate
-python .aura/scripts/record_memo.py
+source .aur2/.venv/bin/activate
+python .aur2/scripts/record_memo.py
 # Press Ctrl+C when done speaking
 
 # In Claude Code session:
-/aura.process_visions
+/aur2.process_visions
 # → Reads vision content
 # → Acts on your request
-# → Moves to .aura/visions/processed/
+# → Moves to .aur2/visions/processed/
 ```
 
 ### Example 2: Scope and Execute
 
 ```bash
 # Create a structured scope from a vision
-/aura.scope "User authentication system with OAuth and MFA"
-# → Creates .aura/plans/queue/user-authentication-system/scope.md
+/aur2.scope "Restructure knowledge base for Q2 priorities"
+# → Creates .aur2/plans/queue/restructure-kb-q2/scope.md
 
 # Execute the scope (creates beads and implements)
-/aura.execute .aura/plans/queue/user-authentication-system/scope.md
+/aur2.execute .aur2/plans/queue/restructure-kb-q2/scope.md
 # → Creates beads tasks with dependencies
 # → Works through tasks respecting dependencies
-```
-
-### Example 3: Using Beads Directly
-
-```bash
-# Check ready tasks
-bd ready
-
-# Start working on a task
-bd update <id> --status in_progress
-
-# Complete a task
-bd close <id> --reason "Implemented feature"
-```
-
-## Cross-Project Recording
-
-Each Aura-initialized project is fully self-contained for vision processing.
-
-### Recording an Audio Vision
-
-Use the included script to record, transcribe, and queue visions in one step:
-```bash
-source .aura/.venv/bin/activate
-python .aura/scripts/record_memo.py [--max-duration SECONDS]
-```
-
-The script:
-1. Records audio via sox (press Ctrl+C to stop)
-2. Transcribes via OpenAI Whisper
-3. Generates a kebab-case title from the transcript
-4. Saves to `.aura/visions/queue/<title>/` with `audio.wav` and `transcript.txt`
-
-If transcription fails, audio is preserved in `.aura/visions/failed/`.
-
-### Vision Directory Structure
-
-```
-.aura/visions/queue/
-├── <title>.txt          # Text vision (plain file)
-└── <title>/             # Audio vision
-    ├── audio.wav        # Recorded audio
-    └── transcript.txt   # Whisper transcript
-```
-
-### Per-Project Setup
-
-After `aura init`, set up Python dependencies for that project:
-```bash
-cd your-project
-
-# Create virtual environment
-uv venv .aura/.venv
-source .aura/.venv/bin/activate
-
-# Install dependencies
-uv pip install -r .aura/scripts/requirements.txt
-
-# Configure API key
-cp .aura/.env.example .aura/.env
-# Edit .aura/.env and add your OPENAI_API_KEY
-```
-
-### Multiple Projects
-
-Each project operates independently:
-```bash
-# Project A
-cd ~/projects/app-a
-# Visions go to ~/projects/app-a/.aura/visions/queue/
-
-# Project B
-cd ~/projects/app-b
-# Visions go to ~/projects/app-b/.aura/visions/queue/
-```
-
-To update skills after an Aura upgrade:
-```bash
-cd your-project
-aura init --force
 ```
 
 ## Verification
@@ -318,28 +238,28 @@ After installation, verify everything works:
 
 ```bash
 # Quick verification
-mkdir /tmp/aura-test && cd /tmp/aura-test
+mkdir /tmp/aur2-test && cd /tmp/aur2-test
 git init
-aura init
-aura check
+aur2 init
+aur2 check
 ```
 
 ## Troubleshooting
 
 ### "OPENAI_API_KEY not set"
 
-Create a `.env` file in the `.aura/` directory:
+Create a `.env` file in the `.aur2/` directory:
 ```bash
-echo "OPENAI_API_KEY=sk-your-key" > .aura/.env
+echo "OPENAI_API_KEY=sk-your-key" > .aur2/.env
 ```
 
 ### "pydub/openai not installed"
 
 Install script dependencies in a virtual environment:
 ```bash
-uv venv .aura/.venv
-source .aura/.venv/bin/activate
-uv pip install -r .aura/scripts/requirements.txt
+uv venv .aur2/.venv
+source .aur2/.venv/bin/activate
+uv pip install -r .aur2/scripts/requirements.txt
 ```
 
 ### Skills not appearing in Claude Code
@@ -349,49 +269,38 @@ Ensure you're in a directory with `.claude/skills/`:
 ls .claude/skills/*/SKILL.md
 ```
 
-If missing, run `aura init`.
+If missing, run `aur2 init`.
 
 ## Development
 
-Aura uses itself for development. The `.aura/`, `.claude/skills/`, and `.claude/templates/` at the repo root are:
+Aur2 uses itself for development. The `.aur2/`, `.claude/skills/`, and `.claude/templates/` at the repo root are:
 
-1. **Working copies** - Used when developing aura with Claude Code
-2. **Template sources** - Copied to target repos by `aura init`
+1. **Working copies** - Used when developing aur2 with Claude Code
+2. **Template sources** - Copied to target repos by `aur2 init`
 
 This means changes to skills are immediately testable without running init.
 
 ```bash
 # Edit a skill
-vim .claude/skills/aura.process_visions/SKILL.md
+vim .claude/skills/aur2.process_visions/SKILL.md
 
 # Test immediately in Claude Code
-/aura.process_visions
+/aur2.process_visions
 ```
 
 ## Design Decisions
 
 ### Why Beads?
 
-Beads provides dependency-aware issue tracking that agents can navigate autonomously. An agent runs `bd ready`, picks a bead, reads comments left by prior agents, does the work, and closes it — unlocking downstream beads. No orchestrator needed. When verification fails, `bd reopen` sends work back upstream with a comment explaining what broke.
+Beads provides dependency-aware issue tracking that agents can navigate autonomously. An agent runs `bd ready`, picks a bead, reads comments left by prior agents, does the work, and closes it — unlocking downstream beads. No orchestrator needed.
 
 ### Why SessionStart Hook?
 
-Automatic context injection means no manual priming. Every Claude Code session starts with project context (`.aura/AURA.md`) and beads workflow guidance (`bd prime`) loaded automatically. Configured in `.claude/settings.json` and merged with existing user settings by `aura init`.
+Automatic context injection means no manual priming. Every Claude Code session starts with project context (`.aur2/AUR2.md`) and beads workflow guidance (`bd prime`) loaded automatically. Configured in `.claude/settings.json` and merged with existing user settings by `aur2 init`.
 
-## Future Work
+### How is this different from the original Aura?
 
-- **`aura check` enhancements**: More detailed validation and diagnostics
-- **Plugin system**: Custom skills and workflows
-- **`uv tool install`**: Global installation support
-- **`aura update`**: Selective skill updates without full re-init
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Edit skills in `.claude/skills/` or scripts in `.aura/scripts/`
-4. Test locally - changes are live for development
-5. Submit a pull request
+The original [aura](https://github.com/cdimoush/aura) by Connor is agentic scaffolding for **coding** — helping agents plan and write code. Aur2 carries forward the scaffolding concept but applies it to **general knowledge work**: maintaining context repositories, producing stakeholder deliverables, analyzing communications, and grooming knowledge bases. The primary "language" is markdown, not code.
 
 ## License
 

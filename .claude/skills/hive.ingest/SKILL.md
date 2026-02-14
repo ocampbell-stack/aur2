@@ -9,6 +9,10 @@ Ingest new documents, notes, or external context into the knowledge base.
 
 ## Instructions
 
+0. **Determine operating mode**
+   - Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+   - If in autonomous mode, follow the full lifecycle (sync, branch, work, commit, PR)
+
 1. **Read the provided document(s) or notes**
    - Accept input as: pasted text, file paths, URLs, or conversation context
    - Identify the document type: meeting notes, strategic doc, project charter, status update, etc.
@@ -49,8 +53,9 @@ Ingest new documents, notes, or external context into the knowledge base.
    - Update the By Section listing
    - Update the file count and last updated date
 
-7. **Create verification task**
+7. **Verify and submit**
    - Run the compound deliverable verification (fidelity, coherence, privacy, professionalism)
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` to commit, push, create PR, and record in beads
    - Create a beads task if follow-up verification is needed: `bd create "Verify ingestion of {source}"`
 
 ## Confidence Levels

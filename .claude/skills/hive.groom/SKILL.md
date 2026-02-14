@@ -9,6 +9,10 @@ Proactively audit the KB for staleness, inconsistencies, and gaps.
 
 ## Instructions
 
+0. **Determine operating mode**
+   - Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+   - If in autonomous mode, follow the full lifecycle (sync, branch, work, commit, PR)
+
 1. **Determine scope**
    - If a target section is specified, scope to that section
    - If no target specified, audit the full KB
@@ -48,6 +52,9 @@ Proactively audit the KB for staleness, inconsistencies, and gaps.
    - `bd create "KB: Update stale entry {file}"`
    - `bd create "KB: Resolve contradiction between {file1} and {file2}"`
    - `bd create "KB: Fill gap - document {topic}"`
+
+6. **Submit**
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` to commit, push, create PR, and record in beads
 
 ## Grooming Frequency
 - Full KB groom: weekly or when explicitly requested

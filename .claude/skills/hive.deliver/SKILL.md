@@ -9,6 +9,10 @@ Generate stakeholder-facing outputs grounded in KB context.
 
 ## Instructions
 
+0. **Determine operating mode**
+   - Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+   - If in autonomous mode, follow the full lifecycle (sync, branch, work, commit, PR)
+
 1. **Read the deliverable request**
    - Understand the audience, format, and purpose
    - Identify the type: document, code, plan, presentation, analysis, email, etc.
@@ -48,6 +52,5 @@ Generate stakeholder-facing outputs grounded in KB context.
    - If existing KB content was found to be stale or wrong, flag for grooming
 
 6. **Submit deliverable**
-   - Place on feature branch
-   - Create PR via `gh pr create` using the PR template from protocols/pr-template.md
-   - Close beads task with summary
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` to commit, push, create PR, and close beads task
+   - If in manual mode, follow the user's lead on committing and submission

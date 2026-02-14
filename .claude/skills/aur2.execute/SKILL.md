@@ -1,5 +1,5 @@
 ---
-name: aura.execute
+name: aur2.execute
 description: Create beads from a scope file and implement them autonomously
 argument-hint: <scope-or-plan-path>
 disable-model-invocation: true
@@ -12,7 +12,7 @@ Create beads from a scope/plan file and implement them in dependency order.
 
 ## Input
 
-Path to a scope or plan file, e.g., `.aura/plans/queue/my-feature/scope.md`
+Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
 
 ## Phase 1: Create Bead Graph
 
@@ -31,14 +31,9 @@ Path to a scope or plan file, e.g., `.aura/plans/queue/my-feature/scope.md`
    ```bash
    bd create --title "<Task title>" --description "<Description>. Epic: <scope-path>"
    ```
-   Record the bead ID returned (e.g., `aura-abc`)
+   Record the bead ID returned
 
-4. **Build ID mapping** - Track task number -> bead ID:
-   ```
-   1 → aura-abc
-   2 → aura-def
-   3 → aura-ghi
-   ```
+4. **Build ID mapping** - Track task number -> bead ID
 
 5. **Set dependencies** - For each task with dependencies:
    ```bash
@@ -66,10 +61,14 @@ Path to a scope or plan file, e.g., `.aura/plans/queue/my-feature/scope.md`
 4. **Repeat** - Check for newly unblocked tasks after each close
 5. **Complete** - When no more ready tasks, scope is done
 
+## Autonomous Mode
+
+If working in an agent worktree (agent-alpha, agent-beta, etc.), read and follow `protocols/autonomous-workflow.md`. Create ONE feature branch for the entire scope execution — do not create separate branches per bead. In a hive-mind context, "implementation" often means producing markdown deliverables and KB updates, not just code changes.
+
 ## Implementation Guidelines
 
 - Read relevant files before making changes
-- Follow existing code patterns in the codebase
+- Follow existing patterns in the codebase
 - Make minimal, focused changes
 - Test changes when possible
 

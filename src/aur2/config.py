@@ -1,4 +1,4 @@
-DOT_AURA_CFG = {
+DOT_AUR2_CFG = {
     "blacklist": [
         "visions",  # visions/queue, visions/processed, visions/failed are created empty
         "plans",  # plans/queue, plans/processed are created empty
@@ -7,7 +7,7 @@ DOT_AURA_CFG = {
 }
 
 # Folders to create (with .gitkeep)
-DOT_AURA_FOLDERS = [
+DOT_AUR2_FOLDERS = [
     "visions/queue",
     "visions/processed",
     "visions/failed",
