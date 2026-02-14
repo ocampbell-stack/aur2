@@ -27,26 +27,32 @@ Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
    N. [ ] <Task title> - <Description>
    ```
 
-3. **Create beads** - For each task, create a bead:
+3. **Create epic** - Create a parent epic for the scope:
    ```bash
-   bd create "<Task title>" -t task -d "<Description>. Epic: <scope-path>"
+   bd create "<Scope name>" -t epic -d "Scope: <scope-path>"
    ```
-   Record the bead ID returned
+   Record the epic bead ID.
 
-4. **Build ID mapping** - Track task number -> bead ID
+4. **Create child beads** - For each task, create a bead under the epic:
+   ```bash
+   bd create "<Task title>" -t task -d "<Description>" --parent <epic-id>
+   ```
+   Record the bead ID returned.
 
-5. **Set dependencies** - For each task with dependencies:
+5. **Build ID mapping** - Track task number -> bead ID
+
+6. **Set dependencies** - For each task with dependencies:
    ```bash
    bd dep add <task-bead-id> <blocker-bead-id>
    ```
 
-6. **Visualize graph** - Confirm the dependency DAG is correct:
+7. **Visualize graph** - Confirm the dependency DAG is correct:
    ```bash
    bd graph --all --compact
    ```
    Review the output: Layer 0 tasks have no blockers and start first. Higher layers depend on lower layers. Tasks in the same layer can run in parallel.
 
-7. **Output summary** - Show created beads and dependency graph
+8. **Output summary** - Show the epic ID, created beads, and dependency graph. The user can check progress at any time with `bd epic status` or `bd swarm status <epic-id>`.
 
 ### Parsing Rules
 
@@ -58,15 +64,15 @@ Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
 ## Phase 2: Implement Graph
 
 1. **Read scope** - Understand the overall goal and context
-2. **Find ready beads** - Run `bd ready` to find unblocked tasks
+2. **Find ready beads** - Run `bd ready --parent <epic-id>` to find unblocked tasks in this scope
 3. **Implement loop** - For each ready bead:
    - Show bead details: `bd show <id>`
    - Mark in progress: `bd update <id> --status in_progress`
    - Implement the work described
    - Record context: `bd comments add <id> "Done: <what was implemented>. Decisions: <key choices made>. Files: <created or modified>"`
    - Close when done: `bd close <id> --reason "<what was done>" --suggest-next`
-4. **Repeat** - Check for newly unblocked tasks after each close
-5. **Complete** - When no more ready tasks, scope is done
+4. **Repeat** - Run `bd ready --parent <epic-id>` again after each close for newly unblocked tasks
+5. **Complete** - When no more ready tasks under the epic, close the epic: `bd epic close-eligible`
 
 ## Autonomous Mode
 
