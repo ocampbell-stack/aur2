@@ -55,7 +55,7 @@ aur2 init
 This creates:
 - `.aur2/` - Configuration, scripts, visions and plans directories
 - `.claude/skills/` - Slash command skills for Claude Code
-- `.claude/templates/` - Plan templates (feature, bug)
+- `.claude/templates/` - Plan templates (feature, bug, knowledge-project, research)
 - `.claude/settings.json` - SessionStart hook for automatic context
 - `.beads/` - Task tracking (if beads CLI available)
 
@@ -109,8 +109,8 @@ Aur2 provides skills across two namespaces:
 | Skill | Description | Example |
 |-------|-------------|---------|
 | `/aur2.process_visions` | Process all visions from queue (text + audio) | `/aur2.process_visions` |
-| `/aur2.scope` | Research codebase and produce a scope file | `/aur2.scope "user authentication system"` |
-| `/aur2.execute` | Create beads from scope and implement autonomously | `/aur2.execute .aur2/plans/queue/user-auth/scope.md` |
+| `/aur2.scope` | Research the project and produce a scope file | `/aur2.scope "restructure KB for Q2 priorities"` |
+| `/aur2.execute` | Create beads from scope and implement autonomously | `/aur2.execute .aur2/plans/queue/restructure-kb-q2/scope.md` |
 
 **`hive.*` — Knowledge base operations** (designed for [hive-mind](https://github.com/ocampbell-stack/hive-mind)):
 
@@ -142,7 +142,7 @@ Setup → Work → Record → Close
 | **Record** | Leave structured context for the next agent. | `bd comments add <id> "what was done, decisions, files changed"` |
 | **Close** | Complete the bead and surface newly unblocked work. | `bd close <id> --reason "summary" --suggest-next` |
 
-**Complexity escalation**: Each `hive.*` skill includes a complexity check early in its flow. Single-session tasks (one document, one deliverable) run as a single bead. Multi-session work (many documents, large audits, multi-part deliverables) should be escalated to `/aur2.scope` for decomposition into a dependency graph of beads, then `/aur2.execute` to work through them.
+**Complexity escalation**: Each `hive.*` skill includes a complexity check early in its flow. Single-session tasks (one document, one deliverable) run as a single bead. Multi-session work (many documents, large audits, multi-part deliverables) should be escalated to `/aur2.scope` for decomposition into a dependency graph of beads, then `/aur2.execute` to work through them. The scope skill is domain-aware — it selects the appropriate template (`feature.md` or `bug.md` for code, `knowledge-project.md` or `research.md` for knowledge work) based on project context.
 
 **Follow-up beads**: Skills may discover new work during execution (stale KB entries, action items, verification needs). These are created as new beads via `bd create`, feeding the `bd ready` queue for other agents.
 
@@ -188,7 +188,7 @@ your-project/
 ├── .beads/                   # Task tracking (if beads available)
 └── .claude/
     ├── settings.json         # SessionStart hook configuration
-    ├── templates/            # Plan templates (feature.md, bug.md)
+    ├── templates/            # Plan templates (feature, bug, knowledge-project, research)
     └── skills/
         ├── aur2.execute/
         │   └── SKILL.md
@@ -320,6 +320,12 @@ Automatic context injection means no manual priming. Every Claude Code session s
 ### How is this different from the original Aura?
 
 The original [aura](https://github.com/cdimoush/aura) by Connor is agentic scaffolding for **coding** — helping agents plan and write code. Aur2 carries forward the scaffolding concept but applies it to **general knowledge work**: maintaining context repositories, producing stakeholder deliverables, analyzing communications, and grooming knowledge bases. The primary "language" is markdown, not code.
+
+Key differences:
+- **Domain-aware scope/execute** — `aur2.scope` detects project context (codebase vs knowledge base) and selects the appropriate template and research strategy. The original aura skills assume a coding project.
+- **Knowledge work templates** — `knowledge-project.md` and `research.md` join the original `feature.md` and `bug.md`, so task decomposition works for KB restructures, multi-document ingestions, and research projects — not just code features.
+- **`hive.*` skill namespace** — Six skills for knowledge base operations (ingest, groom, deliver, advise, maintain, iterate), all with complexity escalation to the domain-aware `aur2.scope`/`aur2.execute`.
+- **Context-aware vision processing** — `aur2.process_visions` adapts to project context, creating KB entries or deliverables in a hive-mind instance rather than only outputting to the vision directory.
 
 ## License
 

@@ -65,8 +65,11 @@ Visions are stored in `.aur2/visions/` with the following structure:
 
 - Read the content and determine what the user is asking for
 - You can search and read any file in the project for context
-- Output (markdown, notes, research results) goes in the vision's directory only — do not modify project files
-- Common requests: create a summary, research a topic, draft a plan
+- Determine the appropriate response based on project context:
+  - **In a knowledge base** (hive-mind): Visions may require creating or updating KB entries, generating deliverables, updating INDEX.md, or creating beads for follow-up work. Modify project files as needed.
+  - **In a codebase**: Prefer keeping research output (summaries, notes, analysis) in the vision's directory. Make code changes only if the vision explicitly requests them.
+  - **For complex, multi-session work**: Escalate to `/aur2.scope` to decompose the vision into a phased plan, then `/aur2.execute` to implement it.
+- Common requests: create a summary, research a topic, draft a plan, ingest documents, produce a deliverable
 
 ## Empty Queue
 

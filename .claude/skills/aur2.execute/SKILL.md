@@ -63,21 +63,34 @@ Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
    - Show bead details: `bd show <id>`
    - Mark in progress: `bd update <id> --status in_progress`
    - Implement the work described
-   - Record context: `bd comments add <id> "Done: <what was implemented>. Decisions: <key choices made>"`
+   - Record context: `bd comments add <id> "Done: <what was implemented>. Decisions: <key choices made>. Files: <created or modified>"`
    - Close when done: `bd close <id> --reason "<what was done>" --suggest-next`
 4. **Repeat** - Check for newly unblocked tasks after each close
 5. **Complete** - When no more ready tasks, scope is done
 
 ## Autonomous Mode
 
-If working in an agent worktree (agent-alpha, agent-beta, etc.), read and follow `protocols/autonomous-workflow.md`. Create ONE feature branch for the entire scope execution — do not create separate branches per bead. In a hive-mind context, "implementation" often means producing markdown deliverables and KB updates, not just code changes.
+If working in an agent worktree (agent-alpha, agent-beta, etc.), read and follow `protocols/autonomous-workflow.md`. Create ONE feature branch for the entire scope execution — do not create separate branches per bead.
 
 ## Implementation Guidelines
 
+These apply to the work done in each bead during the implement loop:
+
 - Read relevant files before making changes
-- Follow existing patterns in the codebase
-- Make minimal, focused changes
+- Make minimal, focused changes per bead
+
+**In a codebase** (source code, application logic):
+- Follow existing code patterns and conventions
 - Test changes when possible
+- Verify builds still pass
+
+**In a knowledge base** (markdown repos, hive-mind instances):
+- Follow KB conventions: YAML frontmatter on all files (source, ingested, confidence, last_verified, tags)
+- Update `knowledge-base/INDEX.md` when adding or modifying KB files
+- Run compound deliverable verification where applicable (fidelity, coherence, privacy, professionalism)
+- Respect privacy standards — team models are internal only
+
+**In mixed contexts**: Apply both sets of guidelines as appropriate.
 
 ## Error Handling
 

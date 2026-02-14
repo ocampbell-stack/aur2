@@ -32,7 +32,7 @@ aur2/
 │       └── requirements.txt  # Script dependencies
 ├── .claude/
 │   ├── settings.json        # SessionStart hook configuration
-│   ├── templates/           # Plan templates (feature.md, bug.md)
+│   ├── templates/           # Plan templates (feature, bug, knowledge-project, research)
 │   └── skills/              # Working copy (dogfood) AND template source
 │       ├── aur2.execute/
 │       │   └── SKILL.md
@@ -105,9 +105,9 @@ The init process:
 **Available Skills**:
 | Skill | Purpose |
 |-------|---------|
-| `aur2.process_visions` | Process all visions from queue (text + audio) |
-| `aur2.scope` | Research codebase and produce a scope file from a template |
-| `aur2.execute` | Create beads from a scope file and implement autonomously |
+| `aur2.process_visions` | Process all visions from queue (text + audio). Context-aware: modifies KB files in hive-mind, keeps output in vision dir for codebases |
+| `aur2.scope` | Research the project and produce a scope file. Domain-aware: selects template based on context (code vs KB vs research) |
+| `aur2.execute` | Create beads from a scope file and implement autonomously. Domain-aware implementation guidelines for code and KB contexts |
 | `hive.ingest` | Ingest documents into the knowledge base (hive-mind) |
 | `hive.groom` | Audit KB for staleness, inconsistencies, and gaps (hive-mind) |
 | `hive.deliver` | Produce external deliverables grounded in KB context (hive-mind) |
@@ -130,6 +130,7 @@ All `hive.*` skills and `aur2.execute` follow a standard bead lifecycle. When ad
 2. **Complexity check** (after beads setup, where applicable):
    - Single-session work → proceed directly as one bead
    - Multi-session work → escalate to `/aur2.scope` + `/aur2.execute`
+   - `/aur2.scope` is domain-aware: it selects the right template (`feature.md`/`bug.md` for code, `knowledge-project.md`/`research.md` for KB work) based on project context
 
 3. **Close and hand off** (final step, replaces vague "submit" steps):
    - `bd comments add <id>` with structured summary (what was done, decisions, files changed)
@@ -213,7 +214,7 @@ Aur2 is developed using aur2. The skills and scripts at the repo root are the sa
 
 4. Update README.md skill reference
 
-5. **Namespace convention**: Use `aur2.*` for general-purpose skills that work in any repo. Use `hive.*` for skills specific to hive-mind knowledge base operations.
+5. **Namespace convention**: Use `aur2.*` for general-purpose skills that work in any repo (code or knowledge work). Use `hive.*` for skills specific to hive-mind knowledge base operations. The `aur2.*` skills are domain-aware — they detect project context and adapt their behavior (template selection, research strategy, implementation guidelines) accordingly.
 
 ### Running Tests
 
@@ -232,7 +233,7 @@ uv run aur2 init --dry-run
 | `src/aur2/cli.py` | CLI commands (`init`, `check`, `remove`) |
 | `src/aur2/init.py` | Scaffolding logic |
 | `src/aur2/config.py` | Configuration constants |
-| `.claude/templates/*.md` | Plan templates (feature, bug) |
+| `.claude/templates/*.md` | Plan templates (feature, bug, knowledge-project, research) |
 | `.claude/skills/*/SKILL.md` | Skill sources (dogfood + template) |
 | `.claude/settings.json` | SessionStart hook configuration |
 | `.aur2/AUR2.md` | Context file (injected at session start) |
