@@ -117,6 +117,31 @@ The init process:
 
 > `hive.*` skills are designed for the [hive-mind](https://github.com/ocampbell-stack/hive-mind) repo but are maintained here as the source of truth.
 
+### Beads Integration Pattern
+
+All `hive.*` skills and `aur2.execute` follow a standard bead lifecycle. When adding or modifying skills, maintain this pattern:
+
+**Standard lifecycle** (required in every `hive.*` skill):
+
+1. **Beads setup** (after step 0 "Determine operating mode"):
+   - Claim existing bead or create new one with skill-specific prefix (e.g., `Ingest:`, `Deliver:`)
+   - `bd show <id>` to read description and comments from prior agents
+
+2. **Complexity check** (after beads setup, where applicable):
+   - Single-session work → proceed directly as one bead
+   - Multi-session work → escalate to `/aur2.scope` + `/aur2.execute`
+
+3. **Close and hand off** (final step, replaces vague "submit" steps):
+   - `bd comments add <id>` with structured summary (what was done, decisions, files changed)
+   - `bd close <id> --reason "..." --suggest-next`
+   - Review `--suggest-next` output for newly unblocked work
+
+**Design rationale**:
+- Each skill invocation = one bead. Don't decompose single-session work into sub-beads (overhead exceeds benefit).
+- Verification stays inline within the skill, not as a separate bead (avoids unnecessary context reload).
+- Follow-up beads (remediation items, action items) are created during execution and feed `bd ready` for other agents.
+- `bd comments add` is the primary inter-agent context-passing mechanism — always leave a useful comment before closing.
+
 ## Visions Pipeline
 
 ### Recording Audio Visions

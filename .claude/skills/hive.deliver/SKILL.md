@@ -13,21 +13,30 @@ Generate stakeholder-facing outputs grounded in KB context.
    - Read `protocols/autonomous-workflow.md` for mode detection and git workflow
    - If in autonomous mode, follow the full lifecycle (sync, branch, work, commit, PR)
 
-1. **Read the deliverable request**
+1. **Beads setup**
+   - If triggered by an existing bead: `bd update <id> --claim` (or `--status in_progress` if already yours)
+   - If triggered by user request with no bead: `bd create "Deliver: <brief description>" -t task`
+   - Read bead context: `bd show <id>` to check description and comments from prior agents
+
+2. **Complexity check**
+   - If the request involves multiple deliverables or a large multi-section document, use `/aur2.scope` to decompose, then `/aur2.execute`
+   - For a single focused deliverable, proceed directly
+
+3. **Read the deliverable request**
    - Understand the audience, format, and purpose
    - Identify the type: document, code, plan, presentation, analysis, email, etc.
 
-2. **Load relevant context from KB**
+4. **Load relevant context from KB**
    - Consult `knowledge-base/INDEX.md` to identify all relevant files
    - Read project files, strategic context, and workstream status as needed
    - Read team models ONLY for informing approach (never for content)
 
-3. **Draft the deliverable**
+5. **Draft the deliverable**
    - Match the requested format and tone
    - Ground all claims in KB content (cite internally which KB files informed each section)
    - Maintain appropriate level of detail for the audience
 
-4. **Run compound deliverable verification**
+6. **Run compound deliverable verification**
 
    a. **Fidelity**: Does it match the assignment instructions?
       - Re-read the original request
@@ -47,10 +56,13 @@ Generate stakeholder-facing outputs grounded in KB context.
       - Check tone and language
       - Verify formatting meets stakeholder expectations
 
-5. **Update KB with learnings**
+7. **Update KB with learnings**
    - If the deliverable process revealed new information, ingest it
    - If existing KB content was found to be stale or wrong, flag for grooming
 
-6. **Submit deliverable**
-   - If in autonomous mode, follow `protocols/autonomous-workflow.md` to commit, push, create PR, and close beads task
+8. **Close and hand off**
+   - Record what was done: `bd comments add <id> "Produced {deliverable type}. KB sources used: {list}. KB updates: {list or none}"`
+   - Close the bead: `bd close <id> --reason "Delivered {brief description}" --suggest-next`
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, PR
    - If in manual mode, follow the user's lead on committing and submission
+   - Review `--suggest-next` output for newly unblocked work

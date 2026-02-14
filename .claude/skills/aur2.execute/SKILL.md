@@ -40,7 +40,13 @@ Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
    bd dep add <task-bead-id> <blocker-bead-id>
    ```
 
-6. **Output summary** - Show created beads and dependency graph
+6. **Visualize graph** - Confirm the dependency DAG is correct:
+   ```bash
+   bd graph --all --compact
+   ```
+   Review the output: Layer 0 tasks have no blockers and start first. Higher layers depend on lower layers. Tasks in the same layer can run in parallel.
+
+7. **Output summary** - Show created beads and dependency graph
 
 ### Parsing Rules
 
@@ -57,6 +63,7 @@ Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
    - Show bead details: `bd show <id>`
    - Mark in progress: `bd update <id> --status in_progress`
    - Implement the work described
+   - Record context: `bd comments add <id> "Done: <what was implemented>. Decisions: <key choices made>"`
    - Close when done: `bd close <id> --reason "<what was done>" --suggest-next`
 4. **Repeat** - Check for newly unblocked tasks after each close
 5. **Complete** - When no more ready tasks, scope is done

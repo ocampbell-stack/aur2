@@ -127,6 +127,27 @@ Aur2 provides skills across two namespaces:
 
 Aur2 automatically injects context at session start via Claude Code's hook system. No need to run a prime command - the aur2 context loads automatically when you start a session.
 
+### Beads Lifecycle in Skills
+
+Every `hive.*` skill and `aur2.execute` follow a standard bead lifecycle that ensures work is tracked, context is passed between agents, and follow-up work is surfaced:
+
+```
+Setup → Work → Record → Close
+```
+
+| Phase | What happens | Key command |
+|-------|-------------|-------------|
+| **Setup** | Claim existing bead or create new one. Read prior context. | `bd update <id> --claim` / `bd create` then `bd show <id>` |
+| **Work** | Execute the skill's core instructions. | (skill-specific) |
+| **Record** | Leave structured context for the next agent. | `bd comments add <id> "what was done, decisions, files changed"` |
+| **Close** | Complete the bead and surface newly unblocked work. | `bd close <id> --reason "summary" --suggest-next` |
+
+**Complexity escalation**: Each `hive.*` skill includes a complexity check early in its flow. Single-session tasks (one document, one deliverable) run as a single bead. Multi-session work (many documents, large audits, multi-part deliverables) should be escalated to `/aur2.scope` for decomposition into a dependency graph of beads, then `/aur2.execute` to work through them.
+
+**Follow-up beads**: Skills may discover new work during execution (stale KB entries, action items, verification needs). These are created as new beads via `bd create`, feeding the `bd ready` queue for other agents.
+
+**Context passing**: `bd comments add` is the primary inter-agent knowledge transfer mechanism. When an agent closes a bead, the comments it left become the context the next agent reads via `bd show`. Always include: what was done, key decisions made, and files created or modified.
+
 ## Using with Hive-Mind
 
 This repo is the **source of truth** for all skills used in [hive-mind](https://github.com/ocampbell-stack/hive-mind). The hive-mind repo gitignores `.claude/skills/` and `.claude/templates/` — they are deployed from here.
