@@ -124,7 +124,7 @@ All `hive.*` skills follow a standard lifecycle defined in `protocols/skill-life
 
 Each skill's SKILL.md references `protocols/skill-lifecycle.md` for the common steps, then provides only its unique "Alignment Focus" and "Core Work" sections. This avoids repeating the same beads/alignment/verification boilerplate in every skill.
 
-**Key protocols** (deployed to target repos by `aur2 init`):
+**Key protocols** (live in hive-mind template, NOT deployed by aur2 init):
 - `protocols/workflow.md` — mode detection, branching, PR lifecycle, feedback iteration
 - `protocols/alignment.md` — context gathering, impact assessment, confirmation
 - `protocols/quality.md` — compound deliverable, verification checklist, privacy standards
