@@ -120,7 +120,6 @@ Aur2 provides skills across two namespaces:
 | `/hive.groom` | Audit KB for staleness, inconsistencies, and gaps |
 | `/hive.deliver` | Produce external deliverables grounded in KB context |
 | `/hive.advise` | Analyze communications and recommend actions |
-| `/hive.maintain` | Plan and execute maintenance or improvements to tooling |
 | `/hive.iterate` | Address PR review feedback on an existing feature branch |
 
 ### Context Injection
@@ -204,9 +203,7 @@ your-project/
         │   └── SKILL.md
         ├── hive.ingest/
         │   └── SKILL.md
-        ├── hive.iterate/
-        │   └── SKILL.md
-        └── hive.maintain/
+        └── hive.iterate/
             └── SKILL.md
 ```
 
@@ -332,7 +329,7 @@ The original [aura](https://github.com/cdimoush/aura) by Connor is agentic scaff
 Key differences:
 - **Domain-aware scope/execute** — `aur2.scope` detects project context (codebase vs knowledge base) and selects the appropriate template and research strategy. The original aura skills assume a coding project.
 - **Knowledge work templates** — `knowledge-project.md` and `research.md` join the original `feature.md` and `bug.md`, so task decomposition works for KB restructures, multi-document ingestions, and research projects — not just code features.
-- **`hive.*` skill namespace** — Six skills for knowledge base operations (ingest, groom, deliver, advise, maintain, iterate), all with complexity escalation to the domain-aware `aur2.scope`/`aur2.execute`.
+- **`hive.*` skill namespace** — Five skills for knowledge base operations (ingest, groom, deliver, advise, iterate), all with complexity escalation to the domain-aware `aur2.scope`/`aur2.execute`.
 - **Context-aware vision processing** — `aur2.process_visions` adapts to project context, creating KB entries or deliverables in a hive-mind instance rather than only outputting to the vision directory.
 
 ## License
