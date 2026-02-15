@@ -2,7 +2,7 @@
 name: hive.advise
 description: Analyze communications and recommend engagement actions
 disable-model-invocation: false
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
 ---
 
 # /hive.advise - Recommend Engagement

@@ -182,7 +182,7 @@ name: skill.name
 description: What the skill does
 argument-hint: <optional input hint>
 disable-model-invocation: false
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
 ---
 
 # Skill Title

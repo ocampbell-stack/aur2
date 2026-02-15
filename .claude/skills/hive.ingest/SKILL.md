@@ -2,7 +2,7 @@
 name: hive.ingest
 description: Ingest documents or notes into the hive-mind knowledge base
 disable-model-invocation: false
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
 ---
 
 # /hive.ingest - Update Mental Model

@@ -2,7 +2,7 @@
 name: aur2.process_visions
 description: Process all visions from queue - text files and audio memos
 disable-model-invocation: false
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
 ---
 
 # Process Visions

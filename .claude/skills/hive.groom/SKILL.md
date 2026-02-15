@@ -2,7 +2,7 @@
 name: hive.groom
 description: Audit knowledge base for staleness, inconsistencies, and gaps
 disable-model-invocation: false
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
 ---
 
 # /hive.groom - Groom Mental Model

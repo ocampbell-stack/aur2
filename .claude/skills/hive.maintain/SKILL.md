@@ -2,7 +2,7 @@
 name: hive.maintain
 description: Plan and execute maintenance or improvements to the hive-mind system
 disable-model-invocation: false
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
 ---
 
 # /hive.maintain - Maintain the Fleet
