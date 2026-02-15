@@ -17,7 +17,7 @@ The argument is a vision description - what the user wants to achieve.
 ## Steps
 
 0. **Determine operating mode**
-   - Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+   - Read `protocols/workflow.md` for mode detection and git workflow
    - If in autonomous mode:
      - Sync workspace: `git fetch origin && git rebase origin/main`
      - Create feature branch: `git checkout -b feat/{agent-name}/scope-{vision-name}`
@@ -75,7 +75,7 @@ The argument is a vision description - what the user wants to achieve.
 
 8. **Submit and hand off**
    - If in autonomous mode:
-     - Commit the scope file and push: follow `protocols/autonomous-workflow.md`
+     - Commit the scope file and push: follow `protocols/workflow.md`
      - Create PR with a description noting this is a **scope for review** — include the task breakdown summary and the exact next-step command: `/aur2.execute <full-path-to-scope-file>`
      - Record PR in bead: `bd comments add <id> "Scope PR: {url}. Awaiting user review before execution."`
      - Close the bead: `bd close <id> --reason "Scope produced and submitted for review" --suggest-next`

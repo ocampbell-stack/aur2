@@ -18,7 +18,7 @@ Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
 
 ## Step 0: Determine Operating Mode
 
-- Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+- Read `protocols/workflow.md` for mode detection and git workflow
 - If in autonomous mode:
   - Sync workspace: `git fetch origin && git rebase origin/main`
   - Create ONE feature branch for the entire scope: `git checkout -b feat/{agent-name}/{scope-name}`
@@ -87,7 +87,7 @@ Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
 
 ## Phase 3: Submit
 
-1. **If in autonomous mode**, follow `protocols/autonomous-workflow.md` for push and PR creation. The PR should cover all beads in the scope.
+1. **If in autonomous mode**, follow `protocols/workflow.md` for push and PR creation. The PR should cover all beads in the scope.
 2. **Record PR in epic**: `bd comments add <epic-id> "PR: {url}. Scope: {scope-path}. Beads completed: {count}"`
 3. **Move scope to processed**: `mv .aur2/plans/queue/{scope-dir} .aur2/plans/processed/`
 4. **Report to user**: Output the PR URL, scope summary, and any beads that could not be completed.
@@ -109,7 +109,7 @@ These apply to the work done in each bead during the implement loop:
 **In a knowledge base** (markdown repos, hive-mind instances):
 - Follow KB conventions: YAML frontmatter on all files (source, ingested, confidence, last_verified, tags)
 - Update `knowledge-base/INDEX.md` when adding or modifying KB files
-- Run compound deliverable verification where applicable (fidelity, coherence, privacy, professionalism)
+- Run quality checks per `protocols/quality.md` (fidelity, coherence, privacy, professionalism)
 - Respect privacy standards — team models are internal only
 
 **In mixed contexts**: Apply both sets of guidelines as appropriate.

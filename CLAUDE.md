@@ -116,29 +116,19 @@ The init process:
 
 ### Beads Integration Pattern
 
-All `hive.*` skills and `aur2.execute` follow a standard bead lifecycle. When adding or modifying skills, maintain this pattern:
+All `hive.*` skills follow a standard lifecycle defined in `protocols/skill-lifecycle.md` (deployed to target repos). When adding or modifying skills, maintain this pattern:
 
-**Standard lifecycle** (required in every `hive.*` skill):
+**Standard lifecycle** (referenced by every `hive.*` skill):
 
-1. **Beads setup** (after step 0 "Determine operating mode"):
-   - Claim existing bead or create new one with skill-specific prefix (e.g., `Ingest:`, `Deliver:`)
-   - `bd show <id>` to read description and comments from prior agents
+1. **Mode** → **Beads setup** → **Complexity check** → **Alignment** → [Skill-specific work] → **Verify** → **Close and hand off**
 
-2. **Complexity check** (after beads setup, where applicable):
-   - Single-session work → proceed directly as one bead
-   - Multi-session work → escalate to `/aur2.scope` to produce a scope PR for user review. Close the current bead with a note pointing to the scope. `/aur2.execute` is invoked separately after the user approves the scope.
-   - `/aur2.scope` is domain-aware: it selects the right template (`feature.md`/`bug.md` for code, `knowledge-project.md`/`research.md` for KB work) based on project context
+Each skill's SKILL.md references `protocols/skill-lifecycle.md` for the common steps, then provides only its unique "Alignment Focus" and "Core Work" sections. This avoids repeating the same beads/alignment/verification boilerplate in every skill.
 
-3. **Preliminary alignment** (after complexity check, before core work):
-   - Gather relevant KB context (read INDEX.md, read related files)
-   - Assess impact: what will change, does it overlap or contradict existing content, what assumptions are being made
-   - Confirm approach with user before editing. **Always pause** (use `AskUserQuestion`) for: new files, structural reorganization, multi-file edits, ambiguous requests. **State plan and proceed** for: single-file factual updates, explicit detailed instructions
-   - When in doubt, pause — the cost of asking is always lower than the cost of rework
-
-4. **Close and hand off** (final step, replaces vague "submit" steps):
-   - `bd comments add <id>` with structured summary (what was done, decisions, files changed)
-   - `bd close <id> --reason "..." --suggest-next`
-   - Review `--suggest-next` output for newly unblocked work
+**Key protocols** (deployed to target repos by `aur2 init`):
+- `protocols/workflow.md` — mode detection, branching, PR lifecycle, feedback iteration
+- `protocols/alignment.md` — context gathering, impact assessment, confirmation
+- `protocols/quality.md` — compound deliverable, verification checklist, privacy standards
+- `protocols/skill-lifecycle.md` — the common hive.* skill wrapper
 
 **Design rationale**:
 - Each skill invocation = one bead. Don't decompose single-session work into sub-beads (overhead exceeds benefit).

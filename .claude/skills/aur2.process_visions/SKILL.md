@@ -21,7 +21,7 @@ Visions are stored in `.aur2/visions/` with the following structure:
 ## Steps
 
 0. **Determine operating mode**
-   - Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+   - Read `protocols/workflow.md` for mode detection and git workflow
    - If in autonomous mode:
      - Sync workspace: `git fetch origin && git rebase origin/main`
      - Create feature branch: `git checkout -b feat/{agent-name}/process-visions`
@@ -69,7 +69,7 @@ Visions are stored in `.aur2/visions/` with the following structure:
 3. **Continue** - Process next vision without user confirmation
 
 4. **Submit** - After all visions are processed:
-   - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, and PR creation
+   - If in autonomous mode, follow `protocols/workflow.md` for commit, push, and PR creation
    - If in manual mode, follow the user's lead on committing
    - Report what was processed, what failed, and any escalated work
 
