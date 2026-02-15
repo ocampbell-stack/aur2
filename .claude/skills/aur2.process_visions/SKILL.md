@@ -79,6 +79,7 @@ Visions are stored in `.aur2/visions/` with the following structure:
 
 - Read the content and determine what the user is asking for
 - You can search and read any file in the project for context
+- **Preliminary alignment**: Before executing, present your interpretation of the vision and proposed action to the user. For ambiguous or high-impact visions, use `AskUserQuestion` to confirm approach. For clear, narrowly-scoped visions, state your plan and proceed. When in doubt, pause.
 - Determine the appropriate response based on project context:
   - **In a knowledge base** (hive-mind): Visions may require creating or updating KB entries, generating deliverables, updating INDEX.md, or creating beads for follow-up work. Modify project files as needed.
   - **In a codebase**: Prefer keeping research output (summaries, notes, analysis) in the vision's directory. Make code changes only if the vision explicitly requests them.

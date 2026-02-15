@@ -28,13 +28,21 @@ The argument is a vision description - what the user wants to achieve.
    - If triggered by user request with no bead: `bd create "Scope: <brief description>" -t task`
    - Read bead context: `bd show <id>` to check description and comments from prior agents
 
-2. **Discover templates** - List available templates:
+2. **Preliminary alignment**
+   - Read `knowledge-base/INDEX.md` (if present) and any project docs relevant to the vision
+   - Assess: How do you interpret the vision? What template seems appropriate? What areas of the project will be affected?
+   - Present to user: your interpretation of the vision, proposed template selection, research plan
+   - **Always pause** (use `AskUserQuestion`) when: the vision is vague or could be interpreted multiple ways, the scope is unclear, or template selection isn't obvious
+   - **State plan and proceed** when: the vision is specific and the template choice is clear
+   - When in doubt, pause — the cost of asking is always lower than the cost of rework
+
+3. **Discover templates** - List available templates:
    ```bash
    ls .claude/templates/
    ```
    Read each template to understand what sections it expects.
 
-3. **Select template** - Choose the template that best fits the vision:
+4. **Select template** - Choose the template that best fits the vision:
    - `feature.md` — Code feature: adding or changing functionality in a codebase
    - `bug.md` — Code bug: investigating and fixing a defect
    - `knowledge-project.md` — Knowledge work: KB restructures, multi-document ingestions, deliverable production, process improvements
@@ -42,7 +50,7 @@ The argument is a vision description - what the user wants to achieve.
 
    **How to choose**: If the work primarily produces or modifies code, use `feature.md` or `bug.md`. If the work primarily produces or modifies markdown/documents in a knowledge base, use `knowledge-project.md`. If the work is investigative with no predetermined output structure, use `research.md`. Default to `knowledge-project.md` if in a hive-mind context (presence of `knowledge-base/` directory), or `feature.md` if in a codebase.
 
-4. **Research the project** - Explore to understand what exists and what will change:
+5. **Research the project** - Explore to understand what exists and what will change:
 
    **For codebases** (source code, application logic):
    - Existing architecture and patterns
@@ -59,13 +67,13 @@ The argument is a vision description - what the user wants to achieve.
 
    **For mixed contexts**: Do both. Some projects have code and knowledge base components.
 
-5. **Populate template** - Fill in every section of the template with findings from research. Replace all `<placeholder>` markers with real content.
+6. **Populate template** - Fill in every section of the template with findings from research. Replace all `<placeholder>` markers with real content.
 
-6. **Write scope file** - Save to `.aur2/plans/queue/<kebab-case-name>/scope.md`
+7. **Write scope file** - Save to `.aur2/plans/queue/<kebab-case-name>/scope.md`
    - Generate name from the vision (max 50 chars, lowercase, hyphens)
    - Create the subdirectory if needed
 
-7. **Submit and hand off**
+8. **Submit and hand off**
    - If in autonomous mode:
      - Commit the scope file and push: follow `protocols/autonomous-workflow.md`
      - Create PR with a description noting this is a **scope for review** — include the task breakdown summary and the exact next-step command: `/aur2.execute <full-path-to-scope-file>`

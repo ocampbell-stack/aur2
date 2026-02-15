@@ -24,12 +24,20 @@ Proactively audit the KB for staleness, inconsistencies, and gaps.
    - If grooming the full KB and it contains many files, escalate to `/aur2.scope` to produce a scope PR for user review. Close this bead with a note pointing to the scope. Execution via `/aur2.execute` happens separately after the user approves the scope.
    - For a targeted section or small KB, proceed directly
 
-3. **Determine scope**
+3. **Preliminary alignment**
+   - Read `knowledge-base/INDEX.md` to get a high-level view of KB scope and structure
+   - Assess: How large is the audit scope? What approach will be taken for findings — auto-fix simple issues, create follow-up beads for substantive changes, or report-only?
+   - Present to user: KB size/scope, proposed audit approach, what kinds of issues will be auto-fixed vs. flagged
+   - **Always pause** (use `AskUserQuestion`) when: grooming the full KB, or the approach to remediation (auto-fix vs. flag) is unclear
+   - **State plan and proceed** when: the target section is specified and the scope is narrow
+   - When in doubt, pause — the cost of asking is always lower than the cost of rework
+
+4. **Determine scope**
    - If a target section is specified, scope to that section
    - If no target specified, audit the full KB
    - Read `knowledge-base/INDEX.md` to get the file listing
 
-4. **For each file in scope, check:**
+5. **For each file in scope, check:**
 
    a. **Staleness** - Is `last_verified` in frontmatter older than 30 days?
       - Flag as stale with recommended action (re-verify, update, or archive)
@@ -49,7 +57,7 @@ Proactively audit the KB for staleness, inconsistencies, and gaps.
       - Files not listed in INDEX.md
       - Empty or placeholder files that were never populated
 
-5. **Produce a grooming report**
+6. **Produce a grooming report**
    Output a structured report with:
    - **Stale items**: File path, last verified date, recommended action
    - **Contradictions**: File paths, conflicting statements, which is likely authoritative
@@ -57,14 +65,14 @@ Proactively audit the KB for staleness, inconsistencies, and gaps.
    - **Structural issues**: What's wrong and how to fix it
    - **Questions for user**: Things that cannot be resolved autonomously
 
-6. **Update INDEX.md** if structure changed during grooming
+7. **Update INDEX.md** if structure changed during grooming
 
-7. **Create follow-up beads** for each remediation item that requires action:
+8. **Create follow-up beads** for each remediation item that requires action:
    - `bd create "KB: Update stale entry {file}" -t task`
    - `bd create "KB: Resolve contradiction between {file1} and {file2}" -t task`
    - `bd create "KB: Fill gap - document {topic}" -t task`
 
-8. **Close and hand off**
+9. **Close and hand off**
    - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, and PR creation
    - Record what was done: `bd comments add <id> "Groomed {scope}. Found: {N} stale, {N} contradictions, {N} gaps. Created {N} follow-up beads. PR: {url or N/A}"`
    - Close the bead: `bd close <id> --reason "KB grooming complete for {scope}" --suggest-next`
