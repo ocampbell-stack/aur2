@@ -116,19 +116,18 @@ The init process:
 
 ### Beads Integration Pattern
 
-All `hive.*` skills follow a standard lifecycle defined in `protocols/skill-lifecycle.md` (deployed to target repos). When adding or modifying skills, maintain this pattern:
+All `hive.*` skills follow the skill lifecycle defined in `protocols/workflow.md` (deployed to target repos). When adding or modifying skills, maintain this pattern:
 
-**Standard lifecycle** (referenced by every `hive.*` skill):
+**Standard lifecycle** (steps 1–9 in `protocols/workflow.md`):
 
-1. **Mode** → **Beads setup** → **Complexity check** → **Alignment** → [Skill-specific work] → **Verify** → **Close and hand off**
+1. **Sync** → **Beads setup** → **Complexity check** → **Alignment** → **Branch** → [Skill-specific work] → **Verify** → **Commit/PR** → **Close**
 
-Each skill's SKILL.md references `protocols/skill-lifecycle.md` for the common steps, then provides only its unique "Alignment Focus" and "Core Work" sections. This avoids repeating the same beads/alignment/verification boilerplate in every skill.
+Each skill's SKILL.md references `protocols/workflow.md` for the common steps, then provides only its unique "Alignment Focus" and "Core Work" sections. This avoids repeating the same beads/alignment/verification boilerplate in every skill.
 
 **Key protocols** (live in hive-mind template, NOT deployed by aur2 init):
-- `protocols/workflow.md` — mode detection, branching, PR lifecycle, feedback iteration
+- `protocols/workflow.md` — mode detection, skill lifecycle, branching, PR lifecycle, feedback iteration
 - `protocols/alignment.md` — context gathering, impact assessment, confirmation
 - `protocols/quality.md` — compound deliverable, verification checklist, privacy standards
-- `protocols/skill-lifecycle.md` — the common hive.* skill wrapper
 
 **Design rationale**:
 - Each skill invocation = one bead. Don't decompose single-session work into sub-beads (overhead exceeds benefit).

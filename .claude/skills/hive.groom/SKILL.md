@@ -11,7 +11,7 @@ Proactively audit the KB for staleness, inconsistencies, and gaps.
 
 **Bead prefix**: `Groom:`
 
-Follow `protocols/skill-lifecycle.md` for setup (mode, beads, complexity check, alignment) and closeout (verify, close and hand off). Then execute the skill-specific steps below.
+Follow the skill lifecycle in `protocols/workflow.md` for setup (steps 1–4) and closeout (steps 7–9). Execute the skill-specific steps below during step 6.
 
 ## Alignment Focus
 
