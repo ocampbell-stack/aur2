@@ -178,16 +178,33 @@ With frontmatter:
 
 ```markdown
 ---
-name: aur2.process_visions
-description: Process all visions from queue
-disable-model-invocation: true
-allowed-tools: Bash(python *), Read, Write, Glob
+name: skill.name
+description: What the skill does
+argument-hint: <optional input hint>
+disable-model-invocation: false
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # Skill Title
 
 Instructions for the agent...
 ```
+
+### Frontmatter Conventions
+
+All skills in this project follow these conventions:
+
+| Field | Standard value | Rationale |
+|-------|---------------|-----------|
+| `name` | `namespace.skillname` | Required on all skills. `aur2.*` for general-purpose, `hive.*` for KB operations. |
+| `description` | Unquoted string | What the skill does. Claude uses this to decide when to apply the skill. |
+| `argument-hint` | Present only if skill takes input | Shown in autocomplete. |
+| `disable-model-invocation` | `false` | All skills allow Claude to invoke them. This enables complexity escalation — `hive.*` skills can escalate to `/aur2.scope` and `/aur2.execute` autonomously. |
+| `allowed-tools` | `Bash, Read, Write, Edit, Glob, Grep` | Full tool access on all skills. Agents on worktree branches are isolated by git — the PR review process is the human-in-the-loop check, not per-tool permission prompts. |
+
+**Why `disable-model-invocation: false` everywhere**: The escalation model requires it. When a `hive.*` skill detects multi-session complexity, it escalates to `/aur2.scope` + `/aur2.execute`. If those skills had `disable-model-invocation: true`, the agent couldn't invoke them and escalation would be broken.
+
+**Why uniform `allowed-tools`**: Agents working autonomously on feature branches need full tool access to make progress without blocking on permission prompts. Branch isolation + PR review is the safety mechanism, not tool restrictions.
 
 ## Development Workflow
 

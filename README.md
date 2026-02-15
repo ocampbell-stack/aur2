@@ -313,6 +313,14 @@ vim .claude/skills/aur2.process_visions/SKILL.md
 
 Beads provides dependency-aware issue tracking that agents can navigate autonomously. An agent runs `bd ready`, picks a bead, reads comments left by prior agents, does the work, and closes it — unlocking downstream beads. No orchestrator needed.
 
+### Why `disable-model-invocation: false` on all skills?
+
+The escalation model requires it. When a `hive.*` skill detects multi-session complexity, it needs to invoke `/aur2.scope` and `/aur2.execute` autonomously. Setting `disable-model-invocation: true` on those skills would prevent escalation — the agent would detect the need to decompose work but be unable to act on it.
+
+### Why uniform `allowed-tools` on all skills?
+
+All skills grant `Bash, Read, Write, Edit, Glob, Grep`. Agents on worktree branches are already isolated by git — the PR review process is the human-in-the-loop safety mechanism, not per-tool permission prompts. Restricting tools at the skill level would block autonomous progress without adding meaningful safety (the agent can't affect main without a merge).
+
 ### Why SessionStart Hook?
 
 Automatic context injection means no manual priming. Every Claude Code session starts with project context (`.aur2/AUR2.md`) and beads workflow guidance (`bd prime`) loaded automatically. Configured in `.claude/settings.json` and merged with existing user settings by `aur2 init`.
