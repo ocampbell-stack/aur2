@@ -20,6 +20,13 @@ Visions are stored in `.aur2/visions/` with the following structure:
 
 ## Steps
 
+0. **Determine operating mode**
+   - Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+   - If in autonomous mode:
+     - Sync workspace: `git fetch origin && git rebase origin/main`
+     - Create feature branch: `git checkout -b feat/{agent-name}/process-visions`
+   - If in manual mode, skip branching — follow the user's lead
+
 1. **List queue** - Find all vision items:
    ```bash
    ls -1 .aur2/visions/queue/
@@ -61,6 +68,13 @@ Visions are stored in `.aur2/visions/` with the following structure:
 
 3. **Continue** - Process next vision without user confirmation
 
+4. **Submit** - After all visions are processed:
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, and PR creation
+   - If in manual mode, follow the user's lead on committing
+   - Report what was processed, what failed, and any escalated work
+
+> **Note**: Visions that escalate to `/aur2.scope` handle their own branch and PR lifecycle (the scope skill submits a scope PR for user review). If all visions escalated (no direct changes made), skip the PR step for this skill.
+
 ## Acting on Request
 
 - Read the content and determine what the user is asking for
@@ -68,7 +82,7 @@ Visions are stored in `.aur2/visions/` with the following structure:
 - Determine the appropriate response based on project context:
   - **In a knowledge base** (hive-mind): Visions may require creating or updating KB entries, generating deliverables, updating INDEX.md, or creating beads for follow-up work. Modify project files as needed.
   - **In a codebase**: Prefer keeping research output (summaries, notes, analysis) in the vision's directory. Make code changes only if the vision explicitly requests them.
-  - **For complex, multi-session work**: Escalate to `/aur2.scope` to decompose the vision into a phased plan, then `/aur2.execute` to implement it.
+  - **For complex, multi-session work**: Escalate to `/aur2.scope` to produce a scope PR for user review. Execution via `/aur2.execute` happens separately after the user approves the scope.
 - Common requests: create a summary, research a topic, draft a plan, ingest documents, produce a deliverable
 
 ## Empty Queue

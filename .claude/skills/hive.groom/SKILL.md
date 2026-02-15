@@ -21,7 +21,7 @@ Proactively audit the KB for staleness, inconsistencies, and gaps.
    - Read bead context: `bd show <id>` to check description and comments from prior agents
 
 2. **Complexity check**
-   - If grooming the full KB and it contains many files, consider using `/aur2.scope` to break the audit into section-by-section beads, then `/aur2.execute`
+   - If grooming the full KB and it contains many files, escalate to `/aur2.scope` to produce a scope PR for user review. Close this bead with a note pointing to the scope. Execution via `/aur2.execute` happens separately after the user approves the scope.
    - For a targeted section or small KB, proceed directly
 
 3. **Determine scope**
@@ -65,9 +65,9 @@ Proactively audit the KB for staleness, inconsistencies, and gaps.
    - `bd create "KB: Fill gap - document {topic}" -t task`
 
 8. **Close and hand off**
-   - Record what was done: `bd comments add <id> "Groomed {scope}. Found: {N} stale, {N} contradictions, {N} gaps. Created {N} follow-up beads."`
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, and PR creation
+   - Record what was done: `bd comments add <id> "Groomed {scope}. Found: {N} stale, {N} contradictions, {N} gaps. Created {N} follow-up beads. PR: {url or N/A}"`
    - Close the bead: `bd close <id> --reason "KB grooming complete for {scope}" --suggest-next`
-   - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, PR
    - Review `--suggest-next` output — follow-up beads created above may now be ready
 
 ## Grooming Frequency

@@ -21,7 +21,7 @@ Generate stakeholder-facing outputs grounded in KB context.
    - Read bead context: `bd show <id>` to check description and comments from prior agents
 
 2. **Complexity check**
-   - If the request involves multiple deliverables or a large multi-section document, use `/aur2.scope` to decompose, then `/aur2.execute`
+   - If the request involves multiple deliverables or a large multi-section document, escalate to `/aur2.scope` to produce a scope PR for user review. Close this bead with a note pointing to the scope. Execution via `/aur2.execute` happens separately after the user approves the scope.
    - For a single focused deliverable, proceed directly
 
 3. **Read the deliverable request**
@@ -63,8 +63,8 @@ Generate stakeholder-facing outputs grounded in KB context.
    - If existing KB content was found to be stale or wrong, flag for grooming
 
 8. **Close and hand off**
-   - Record what was done: `bd comments add <id> "Produced {deliverable type}. KB sources used: {list}. KB updates: {list or none}"`
-   - Close the bead: `bd close <id> --reason "Delivered {brief description}" --suggest-next`
-   - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, PR
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, and PR creation
    - If in manual mode, follow the user's lead on committing and submission
+   - Record what was done: `bd comments add <id> "Produced {deliverable type}. KB sources used: {list}. KB updates: {list or none}. PR: {url or N/A}"`
+   - Close the bead: `bd close <id> --reason "Delivered {brief description}" --suggest-next`
    - Review `--suggest-next` output for newly unblocked work

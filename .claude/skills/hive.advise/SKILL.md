@@ -21,7 +21,7 @@ Analyze communications and recommend actions based on KB context.
    - Read bead context: `bd show <id>` to check description and comments from prior agents
 
 2. **Complexity check**
-   - If the request involves analyzing multiple communications or producing advice across several topics, use `/aur2.scope` to decompose, then `/aur2.execute`
+   - If the request involves analyzing multiple communications or producing advice across several topics, escalate to `/aur2.scope` to produce a scope PR for user review. Close this bead with a note pointing to the scope. Execution via `/aur2.execute` happens separately after the user approves the scope.
    - For a single communication or focused advisory, proceed directly
 
 3. **Read the provided communication**
@@ -68,7 +68,7 @@ Analyze communications and recommend actions based on KB context.
    - `bd create "Follow up: {action item description}" -t task`
 
 9. **Close and hand off**
-   - Record what was done: `bd comments add <id> "Analyzed {communication type}. Key findings: {summary}. Created {N} follow-up beads. KB files updated: {list or none}"`
+   - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, and PR creation
+   - Record what was done: `bd comments add <id> "Analyzed {communication type}. Key findings: {summary}. Created {N} follow-up beads. KB files updated: {list or none}. PR: {url or N/A}"`
    - Close the bead: `bd close <id> --reason "Advisory complete for {brief description}" --suggest-next`
-   - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, PR
    - Review `--suggest-next` output for newly unblocked work

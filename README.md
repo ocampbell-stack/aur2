@@ -109,8 +109,8 @@ Aur2 provides skills across two namespaces:
 | Skill | Description | Example |
 |-------|-------------|---------|
 | `/aur2.process_visions` | Process all visions from queue (text + audio) | `/aur2.process_visions` |
-| `/aur2.scope` | Research the project and produce a scope file | `/aur2.scope "restructure KB for Q2 priorities"` |
-| `/aur2.execute` | Create beads from scope and implement autonomously | `/aur2.execute .aur2/plans/queue/restructure-kb-q2/scope.md` |
+| `/aur2.scope` | Research the project and produce a scope file (submitted as PR for review) | `/aur2.scope "restructure KB for Q2 priorities"` |
+| `/aur2.execute` | Create beads from an approved scope and implement | `/aur2.execute .aur2/plans/queue/restructure-kb-q2/scope.md` |
 
 **`hive.*` — Knowledge base operations** (designed for [hive-mind](https://github.com/ocampbell-stack/hive-mind)):
 
@@ -141,7 +141,7 @@ Setup → Work → Record → Close
 | **Record** | Leave structured context for the next agent. | `bd comments add <id> "what was done, decisions, files changed"` |
 | **Close** | Complete the bead and surface newly unblocked work. | `bd close <id> --reason "summary" --suggest-next` |
 
-**Complexity escalation**: Each `hive.*` skill includes a complexity check early in its flow. Single-session tasks (one document, one deliverable) run as a single bead. Multi-session work (many documents, large audits, multi-part deliverables) should be escalated to `/aur2.scope` for decomposition into a dependency graph of beads, then `/aur2.execute` to work through them. The scope skill is domain-aware — it selects the appropriate template (`feature.md` or `bug.md` for code, `knowledge-project.md` or `research.md` for knowledge work) based on project context.
+**Complexity escalation**: Each `hive.*` skill includes a complexity check early in its flow. Single-session tasks (one document, one deliverable) run as a single bead. Multi-session work (many documents, large audits, multi-part deliverables) should be escalated to `/aur2.scope`, which produces a scope file and submits it as a PR for user review. After the user approves the scope, `/aur2.execute` is invoked separately to create beads and implement the work. This two-phase model ensures the user reviews the work breakdown before execution begins. The scope skill is domain-aware — it selects the appropriate template (`feature.md` or `bug.md` for code, `knowledge-project.md` or `research.md` for knowledge work) based on project context.
 
 **Follow-up beads**: Skills may discover new work during execution (stale KB entries, action items, verification needs). These are created as new beads via `bd create`, feeding the `bd ready` queue for other agents.
 
@@ -235,14 +235,20 @@ python .aur2/scripts/record_memo.py
 # → Moves to .aur2/visions/processed/
 ```
 
-### Example 2: Scope and Execute
+### Example 2: Scope, Review, Execute
 
 ```bash
-# Create a structured scope from a vision
+# Step 1: Create a structured scope from a vision
 /aur2.scope "Restructure knowledge base for Q2 priorities"
 # → Creates .aur2/plans/queue/restructure-kb-q2/scope.md
+# → In autonomous mode: submits scope as PR for review
 
-# Execute the scope (creates beads and implements)
+# Step 2: Review the scope PR on GitHub
+# → Leave comments if changes are needed
+# → Agent iterates via /hive.iterate
+# → Approve when satisfied
+
+# Step 3: Execute the approved scope (separate invocation)
 /aur2.execute .aur2/plans/queue/restructure-kb-q2/scope.md
 # → Creates beads tasks with dependencies
 # → Works through tasks respecting dependencies
@@ -312,7 +318,7 @@ Beads provides dependency-aware issue tracking that agents can navigate autonomo
 
 ### Why `disable-model-invocation: false` on all skills?
 
-The escalation model requires it. When a `hive.*` skill detects multi-session complexity, it needs to invoke `/aur2.scope` and `/aur2.execute` autonomously. Setting `disable-model-invocation: true` on those skills would prevent escalation — the agent would detect the need to decompose work but be unable to act on it.
+The escalation model requires it. When a `hive.*` skill detects multi-session complexity, it needs to invoke `/aur2.scope` autonomously to produce a scope PR for user review. Setting `disable-model-invocation: true` on `/aur2.scope` would prevent escalation — the agent would detect the need to decompose work but be unable to act on it. `/aur2.execute` is invoked separately after the user approves the scope, but also needs `false` since agents invoke it directly.
 
 ### Why uniform `allowed-tools` on all skills?
 
@@ -329,7 +335,7 @@ The original [aura](https://github.com/cdimoush/aura) by Connor is agentic scaff
 Key differences:
 - **Domain-aware scope/execute** — `aur2.scope` detects project context (codebase vs knowledge base) and selects the appropriate template and research strategy. The original aura skills assume a coding project.
 - **Knowledge work templates** — `knowledge-project.md` and `research.md` join the original `feature.md` and `bug.md`, so task decomposition works for KB restructures, multi-document ingestions, and research projects — not just code features.
-- **`hive.*` skill namespace** — Five skills for knowledge base operations (ingest, groom, deliver, advise, iterate), all with complexity escalation to the domain-aware `aur2.scope`/`aur2.execute`.
+- **`hive.*` skill namespace** — Five skills for knowledge base operations (ingest, groom, deliver, advise, iterate), all with complexity escalation to the domain-aware `aur2.scope` (which submits a scope PR for user review before execution).
 - **Context-aware vision processing** — `aur2.process_visions` adapts to project context, creating KB entries or deliverables in a hive-mind instance rather than only outputting to the vision directory.
 
 ## License

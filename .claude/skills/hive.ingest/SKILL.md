@@ -21,7 +21,7 @@ Ingest new documents, notes, or external context into the knowledge base.
    - Read bead context: `bd show <id>` to check description and comments from prior agents
 
 2. **Complexity check**
-   - If the request involves multiple documents or will require more than one session, use `/aur2.scope` to decompose into a phased plan, then `/aur2.execute` to implement
+   - If the request involves multiple documents or will require more than one session, escalate to `/aur2.scope` to produce a scope PR for user review. Close this bead with a note pointing to the scope. Execution via `/aur2.execute` happens separately after the user approves the scope.
    - For a single document or focused ingestion, proceed directly
 
 3. **Read the provided document(s) or notes**
@@ -69,9 +69,9 @@ Ingest new documents, notes, or external context into the knowledge base.
    - Create a beads task if follow-up verification is needed: `bd create "Verify ingestion of {source}" -t task`
 
 10. **Close and hand off**
-    - Record what was done: `bd comments add <id> "Ingested {source}. Files created/modified: {list}. Key decisions: {notes}"`
+    - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, and PR creation
+    - Record what was done: `bd comments add <id> "Ingested {source}. Files created/modified: {list}. Key decisions: {notes}. PR: {url or N/A}"`
     - Close the bead: `bd close <id> --reason "Ingested {source} into KB" --suggest-next`
-    - If in autonomous mode, follow `protocols/autonomous-workflow.md` for commit, push, PR
     - Review `--suggest-next` output for newly unblocked work
 
 ## Confidence Levels

@@ -14,6 +14,17 @@ Create beads from a scope/plan file and implement them in dependency order.
 
 Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
 
+> This skill is invoked **after** the user has reviewed and approved a scope produced by `/aur2.scope`. In autonomous mode, this typically means the scope PR has been reviewed (and merged or explicitly approved). Never chain automatically from scope — always wait for user approval first.
+
+## Step 0: Determine Operating Mode
+
+- Read `protocols/autonomous-workflow.md` for mode detection and git workflow
+- If in autonomous mode:
+  - Sync workspace: `git fetch origin && git rebase origin/main`
+  - Create ONE feature branch for the entire scope: `git checkout -b feat/{agent-name}/{scope-name}`
+  - Do not create separate branches per bead
+- If in manual mode, skip branching — follow the user's lead
+
 ## Phase 1: Create Bead Graph
 
 1. **Read scope** - Parse the scope markdown file
@@ -74,9 +85,14 @@ Path to a scope or plan file, e.g., `.aur2/plans/queue/my-feature/scope.md`
 4. **Repeat** - Run `bd ready --parent <epic-id>` again after each close for newly unblocked tasks
 5. **Complete** - When no more ready tasks under the epic, close the epic: `bd epic close-eligible`
 
-## Autonomous Mode
+## Phase 3: Submit
 
-If working in an agent worktree (agent-alpha, agent-beta, etc.), read and follow `protocols/autonomous-workflow.md`. Create ONE feature branch for the entire scope execution — do not create separate branches per bead.
+1. **If in autonomous mode**, follow `protocols/autonomous-workflow.md` for push and PR creation. The PR should cover all beads in the scope.
+2. **Record PR in epic**: `bd comments add <epic-id> "PR: {url}. Scope: {scope-path}. Beads completed: {count}"`
+3. **Move scope to processed**: `mv .aur2/plans/queue/{scope-dir} .aur2/plans/processed/`
+4. **Report to user**: Output the PR URL, scope summary, and any beads that could not be completed.
+
+If in manual mode, follow the user's lead on committing. Still move the scope to processed.
 
 ## Implementation Guidelines
 

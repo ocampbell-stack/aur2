@@ -126,7 +126,7 @@ All `hive.*` skills and `aur2.execute` follow a standard bead lifecycle. When ad
 
 2. **Complexity check** (after beads setup, where applicable):
    - Single-session work → proceed directly as one bead
-   - Multi-session work → escalate to `/aur2.scope` + `/aur2.execute`
+   - Multi-session work → escalate to `/aur2.scope` to produce a scope PR for user review. Close the current bead with a note pointing to the scope. `/aur2.execute` is invoked separately after the user approves the scope.
    - `/aur2.scope` is domain-aware: it selects the right template (`feature.md`/`bug.md` for code, `knowledge-project.md`/`research.md` for KB work) based on project context
 
 3. **Close and hand off** (final step, replaces vague "submit" steps):
@@ -196,10 +196,10 @@ All skills in this project follow these conventions:
 | `name` | `namespace.skillname` | Required on all skills. `aur2.*` for general-purpose, `hive.*` for KB operations. |
 | `description` | Unquoted string | What the skill does. Claude uses this to decide when to apply the skill. |
 | `argument-hint` | Present only if skill takes input | Shown in autocomplete. |
-| `disable-model-invocation` | `false` | All skills allow Claude to invoke them. This enables complexity escalation — `hive.*` skills can escalate to `/aur2.scope` and `/aur2.execute` autonomously. |
+| `disable-model-invocation` | `false` | All skills allow Claude to invoke them. This enables complexity escalation — `hive.*` skills can escalate to `/aur2.scope` autonomously when they detect multi-session work. |
 | `allowed-tools` | `Bash, Read, Write, Edit, Glob, Grep` | Full tool access on all skills. Agents on worktree branches are isolated by git — the PR review process is the human-in-the-loop check, not per-tool permission prompts. |
 
-**Why `disable-model-invocation: false` everywhere**: The escalation model requires it. When a `hive.*` skill detects multi-session complexity, it escalates to `/aur2.scope` + `/aur2.execute`. If those skills had `disable-model-invocation: true`, the agent couldn't invoke them and escalation would be broken.
+**Why `disable-model-invocation: false` everywhere**: The escalation model requires it. When a `hive.*` skill detects multi-session complexity, it escalates to `/aur2.scope` to produce a scope PR for user review. If `/aur2.scope` had `disable-model-invocation: true`, the agent couldn't invoke it and escalation would be broken. `/aur2.execute` is invoked separately after the user approves the scope.
 
 **Why uniform `allowed-tools`**: Agents working autonomously on feature branches need full tool access to make progress without blocking on permission prompts. Branch isolation + PR review is the safety mechanism, not tool restrictions.
 
