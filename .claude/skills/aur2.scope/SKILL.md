@@ -68,7 +68,7 @@ The argument is a vision description - what the user wants to achieve.
 7. **Submit and hand off**
    - If in autonomous mode:
      - Commit the scope file and push: follow `protocols/autonomous-workflow.md`
-     - Create PR with a description noting this is a **scope for review** — include the task breakdown summary and note that `/aur2.execute` should be run after the user approves
+     - Create PR with a description noting this is a **scope for review** — include the task breakdown summary and the exact next-step command: `/aur2.execute <full-path-to-scope-file>`
      - Record PR in bead: `bd comments add <id> "Scope PR: {url}. Awaiting user review before execution."`
      - Close the bead: `bd close <id> --reason "Scope produced and submitted for review" --suggest-next`
    - If in manual mode:
