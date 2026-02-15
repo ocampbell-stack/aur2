@@ -129,7 +129,13 @@ All `hive.*` skills and `aur2.execute` follow a standard bead lifecycle. When ad
    - Multi-session work → escalate to `/aur2.scope` to produce a scope PR for user review. Close the current bead with a note pointing to the scope. `/aur2.execute` is invoked separately after the user approves the scope.
    - `/aur2.scope` is domain-aware: it selects the right template (`feature.md`/`bug.md` for code, `knowledge-project.md`/`research.md` for KB work) based on project context
 
-3. **Close and hand off** (final step, replaces vague "submit" steps):
+3. **Preliminary alignment** (after complexity check, before core work):
+   - Gather relevant KB context (read INDEX.md, read related files)
+   - Assess impact: what will change, does it overlap or contradict existing content, what assumptions are being made
+   - Confirm approach with user before editing. **Always pause** (use `AskUserQuestion`) for: new files, structural reorganization, multi-file edits, ambiguous requests. **State plan and proceed** for: single-file factual updates, explicit detailed instructions
+   - When in doubt, pause — the cost of asking is always lower than the cost of rework
+
+4. **Close and hand off** (final step, replaces vague "submit" steps):
    - `bd comments add <id>` with structured summary (what was done, decisions, files changed)
    - `bd close <id> --reason "..." --suggest-next`
    - Review `--suggest-next` output for newly unblocked work

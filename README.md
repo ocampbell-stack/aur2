@@ -131,15 +131,18 @@ Aur2 automatically injects context at session start via Claude Code's hook syste
 Every `hive.*` skill and `aur2.execute` follow a standard bead lifecycle that ensures work is tracked, context is passed between agents, and follow-up work is surfaced:
 
 ```
-Setup → Work → Record → Close
+Setup → Align → Work → Record → Close
 ```
 
 | Phase | What happens | Key command |
 |-------|-------------|-------------|
 | **Setup** | Claim existing bead or create new one. Read prior context. | `bd update <id> --claim` / `bd create` then `bd show <id>` |
+| **Align** | Gather relevant KB context, assess impact, confirm approach with user before editing. | `AskUserQuestion` (for ambiguous/high-impact work) |
 | **Work** | Execute the skill's core instructions. | (skill-specific) |
 | **Record** | Leave structured context for the next agent. | `bd comments add <id> "what was done, decisions, files changed"` |
 | **Close** | Complete the bead and surface newly unblocked work. | `bd close <id> --reason "summary" --suggest-next` |
+
+**Preliminary alignment**: Before making changes, every skill gathers relevant context from the knowledge base, assesses the impact of the proposed work, and confirms the approach with the user. For high-impact or ambiguous tasks, agents pause via `AskUserQuestion` and wait for confirmation. For clear, narrowly-scoped tasks, they state their plan and proceed. This catches misunderstandings before implementation, when correction cost is lowest.
 
 **Complexity escalation**: Each `hive.*` skill includes a complexity check early in its flow. Single-session tasks (one document, one deliverable) run as a single bead. Multi-session work (many documents, large audits, multi-part deliverables) should be escalated to `/aur2.scope`, which produces a scope file and submits it as a PR for user review. After the user approves the scope, `/aur2.execute` is invoked separately to create beads and implement the work. This two-phase model ensures the user reviews the work breakdown before execution begins. The scope skill is domain-aware — it selects the appropriate template (`feature.md` or `bug.md` for code, `knowledge-project.md` or `research.md` for knowledge work) based on project context.
 
@@ -323,6 +326,10 @@ The escalation model requires it. When a `hive.*` skill detects multi-session co
 ### Why uniform `allowed-tools` on all skills?
 
 All skills grant `Bash, Read, Write, Edit, Glob, Grep`. Agents on worktree branches are already isolated by git — the PR review process is the human-in-the-loop safety mechanism, not per-tool permission prompts. Restricting tools at the skill level would block autonomous progress without adding meaningful safety (the agent can't affect main without a merge).
+
+### Why Preliminary Alignment?
+
+PR review catches problems after implementation — but the cost of rework is high. Preliminary alignment catches misunderstandings **before** implementation, when correction cost is lowest. Every skill that makes changes includes an alignment step: gather relevant KB context, assess what will change, and confirm the approach with the user. A confidence threshold determines when to hard-pause (ambiguous/high-impact work) vs. state-plan-and-proceed (clear, narrowly-scoped tasks). Together, preliminary alignment and PR review form two complementary checkpoints: align first, then implement, then review.
 
 ### Why SessionStart Hook?
 
