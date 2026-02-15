@@ -1,6 +1,8 @@
 ---
-description: "Plan and execute maintenance or improvements to the hive-mind system"
+name: hive.maintain
+description: Plan and execute maintenance or improvements to the hive-mind system
 disable-model-invocation: false
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # /hive.maintain - Maintain the Fleet

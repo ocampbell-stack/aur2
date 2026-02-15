@@ -3,6 +3,7 @@ name: hive.iterate
 description: Address PR review feedback on an existing feature branch
 argument-hint: <PR number or URL>
 disable-model-invocation: false
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # /hive.iterate - Address PR Feedback

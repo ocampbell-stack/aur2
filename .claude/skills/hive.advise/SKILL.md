@@ -1,6 +1,8 @@
 ---
-description: "Analyze communications and recommend engagement actions"
+name: hive.advise
+description: Analyze communications and recommend engagement actions
 disable-model-invocation: false
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # /hive.advise - Recommend Engagement

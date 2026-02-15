@@ -2,7 +2,7 @@
 name: aur2.execute
 description: Create beads from a scope file and implement them autonomously
 argument-hint: <scope-or-plan-path>
-disable-model-invocation: true
+disable-model-invocation: false
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 

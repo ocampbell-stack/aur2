@@ -2,8 +2,8 @@
 name: aur2.scope
 description: Research the project and produce a scope file from a template
 argument-hint: <vision description>
-disable-model-invocation: true
-allowed-tools: Bash(ls *), Read, Write, Glob, Grep
+disable-model-invocation: false
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # Scope Task

@@ -1,6 +1,8 @@
 ---
-description: "Ingest documents or notes into the hive-mind knowledge base"
+name: hive.ingest
+description: Ingest documents or notes into the hive-mind knowledge base
 disable-model-invocation: false
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # /hive.ingest - Update Mental Model

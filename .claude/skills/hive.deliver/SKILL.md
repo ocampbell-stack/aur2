@@ -1,6 +1,8 @@
 ---
-description: "Produce external deliverables grounded in hive-mind context"
+name: hive.deliver
+description: Produce external deliverables grounded in hive-mind context
 disable-model-invocation: false
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # /hive.deliver - Produce External Deliverables
