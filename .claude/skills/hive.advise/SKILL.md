@@ -25,6 +25,7 @@ During preliminary alignment, pay attention to:
 1. **Read the provided communication**
    - Accept: meeting notes, chat threads, emails, Slack messages, etc.
    - Identify: participants, topics discussed, decisions made, action items, tone
+   - Track source fidelity: note inaccessible content (images, attachments, linked documents) and format issues. Include in the PR's Source Fidelity section.
 
 2. **Load relevant KB context**
    - User profile (`knowledge-base/user/profile.md`) — ground recommendations in the user's role, goals, and key relationships
