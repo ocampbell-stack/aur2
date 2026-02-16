@@ -26,7 +26,7 @@ During preliminary alignment, pay attention to:
 1. **Read the provided document(s) or notes**
    - Accept input as: pasted text, file paths, URLs, or conversation context
    - Identify document type: meeting notes, strategic doc, project charter, status update, etc.
-   - Track source fidelity as you read: note content you cannot access (images, external links, auth-gated resources), format issues that impede processing (base64 blobs, HTML artifacts, oversized files), and recommendations for better input formats. Include these in the PR's Source Fidelity section.
+   - Track source accessibility as you read: note content you cannot access (images, external links, auth-gated resources), format issues that impede processing (base64 blobs, HTML artifacts, oversized files), and recommendations for better input formats. Include these in the PR's Source Accessibility section.
 
 2. **Extract key information**
    - Facts and data points
