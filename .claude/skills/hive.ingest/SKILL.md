@@ -36,10 +36,12 @@ During preliminary alignment, pay attention to:
 
 3. **Update or create KB files**
    - Place files in the appropriate subdirectory:
-     - `strategic-context/` for role, priorities, OKRs
+     - `user/` for the user's identity, expertise, goals, and augmentation preferences
+     - `strategic-context/` for organizational strategy, priorities, OKRs
      - `projects/{project-name}/` for project-specific information
      - `team/` for professional team models (INTERNAL ONLY)
      - `workstreams/` for workstream status and tracking
+   - When source material contains information about the user's identity, role, expertise, or goals, route it to `user/profile.md` (create or update). For organizational/program-level strategy, use `strategic-context/`.
    - If updating existing files, preserve existing content and annotate what changed
    - If creating new files, follow the section README.md for structure
    - Include YAML frontmatter per `protocols/quality.md`

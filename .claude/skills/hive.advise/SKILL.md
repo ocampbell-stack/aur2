@@ -27,6 +27,7 @@ During preliminary alignment, pay attention to:
    - Identify: participants, topics discussed, decisions made, action items, tone
 
 2. **Load relevant KB context**
+   - User profile (`knowledge-base/user/profile.md`) — ground recommendations in the user's role, goals, and key relationships
    - Team member models (for tailoring recommendations — never expose)
    - Project state and priorities
    - Strategic context and objectives

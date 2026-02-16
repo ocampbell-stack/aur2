@@ -47,6 +47,11 @@ During preliminary alignment, pay attention to:
       - Files not listed in INDEX.md
       - Empty or placeholder files that were never populated
 
+   e. **User profile completeness** — Does `knowledge-base/user/profile.md` exist?
+      - If missing, flag as a gap: "No user profile. Run `/hive.onboard` to create one."
+      - If present, check for completeness: are Identity, Expertise, Goals, Working Context, and Augmentation Preferences sections populated?
+      - Check staleness of `last_verified` as with other files
+
 3. **Produce a grooming report**
    - **Stale items**: File path, last verified date, recommended action
    - **Contradictions**: File paths, conflicting statements, which is likely authoritative

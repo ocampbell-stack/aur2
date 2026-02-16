@@ -28,6 +28,7 @@ During preliminary alignment, pay attention to:
    - Identify type: document, plan, analysis, email, presentation, etc.
 
 2. **Load relevant context from KB**
+   - Read `knowledge-base/user/profile.md` to understand the user's role, expertise, and goals — frame the deliverable from their perspective, calibrated to their expertise level and strategic objectives
    - Consult `knowledge-base/INDEX.md` to identify all relevant files
    - Read project files, strategic context, and workstream status as needed
    - Read team models ONLY for informing approach (never for content)

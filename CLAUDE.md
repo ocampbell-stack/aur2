@@ -48,7 +48,9 @@ aur2/
 │       │   └── SKILL.md
 │       ├── hive.ingest/
 │       │   └── SKILL.md
-│       └── hive.iterate/
+│       ├── hive.iterate/
+│       │   └── SKILL.md
+│       └── hive.onboard/
 │           └── SKILL.md
 ├── src/aur2/
 │   ├── __init__.py          # Package init
@@ -106,6 +108,7 @@ The init process:
 | `aur2.process_visions` | Process all visions from queue (text + audio). Context-aware: modifies KB files in hive-mind, keeps output in vision dir for codebases |
 | `aur2.scope` | Research the project and produce a scope file. Domain-aware: selects template based on context (code vs KB vs research) |
 | `aur2.execute` | Create beads from a scope file and implement autonomously. Domain-aware implementation guidelines for code and KB contexts |
+| `hive.onboard` | Build or update the user profile (hive-mind) |
 | `hive.ingest` | Ingest documents into the knowledge base (hive-mind) |
 | `hive.groom` | Audit KB for staleness, inconsistencies, and gaps (hive-mind) |
 | `hive.deliver` | Produce external deliverables grounded in KB context (hive-mind) |

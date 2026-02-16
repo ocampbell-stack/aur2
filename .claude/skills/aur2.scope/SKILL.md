@@ -59,6 +59,7 @@ The argument is a vision description - what the user wants to achieve.
    - How similar features are implemented
 
    **For knowledge bases** (markdown repos, hive-mind instances):
+   - Read `knowledge-base/user/profile.md` to understand the user's role and goals when scoping KB work
    - Read `knowledge-base/INDEX.md` to understand current coverage
    - Identify which KB sections are relevant to the vision
    - Check for existing entries that overlap with or relate to the work
