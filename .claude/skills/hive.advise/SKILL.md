@@ -25,7 +25,8 @@ During preliminary alignment, pay attention to:
 1. **Read the provided communication**
    - Accept: meeting notes, chat threads, emails, Slack messages, etc.
    - Identify: participants, topics discussed, decisions made, action items, tone
-   - Track source accessibility: note inaccessible content (images, attachments, linked documents) and format issues. Include in the PR's Source Accessibility section.
+   - **Follow useful links**: When the source contains hyperlinks (shared docs, referenced threads, etc.), use judgment to follow links whose content would inform better recommendations. Skip irrelevant or obviously inaccessible links. Use `WebFetch` or `WebSearch` as appropriate.
+   - Track source accessibility: note inaccessible content (images, attachments), format issues, and which links you followed vs. didn't follow (with reasons). Include in the PR's Source Accessibility section.
 
 2. **Load relevant KB context**
    - User profile (`knowledge-base/user/profile.md`) — ground recommendations in the user's role, goals, and key relationships

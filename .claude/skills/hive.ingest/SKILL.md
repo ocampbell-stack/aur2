@@ -26,7 +26,8 @@ During preliminary alignment, pay attention to:
 1. **Read the provided document(s) or notes**
    - Accept input as: pasted text, file paths, URLs, or conversation context
    - Identify document type: meeting notes, strategic doc, project charter, status update, etc.
-   - Track source accessibility as you read: note content you cannot access (images, external links, auth-gated resources), format issues that impede processing (base64 blobs, HTML artifacts, oversized files), and recommendations for better input formats. Include these in the PR's Source Accessibility section.
+   - **Follow useful links**: When the source material contains hyperlinks, use judgment to decide which to follow. Attempt to fetch links whose content would enrich the ingestion (e.g., referenced documents, specs, background context). Skip links that are clearly irrelevant to the task or obviously inaccessible. Use `WebFetch` or `WebSearch` as appropriate.
+   - Track source accessibility as you read: note content you cannot access (images, auth-gated resources), format issues that impede processing (base64 blobs, HTML artifacts, oversized files), and which links you followed vs. didn't follow (with reasons). Include these in the PR's Source Accessibility section.
 
 2. **Extract key information**
    - Facts and data points
