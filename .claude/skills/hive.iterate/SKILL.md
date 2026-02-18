@@ -54,6 +54,7 @@ This skill has a lighter lifecycle than other hive.* skills — it skips the com
    git add -A
    git commit -m "address review: <summary>"
    git push
+   # Grab active session UUID from Claude Code's local session storage (see protocols/workflow.md Step 8.3)
    CLAUDE_SESSION=$(/bin/ls -1t ~/.claude/projects/$(echo "$PWD" | tr '/' '-')/*.jsonl 2>/dev/null | head -1 | sed 's/.*\///' | sed 's/\.jsonl$//')
    gh pr comment <number> --body "Addressed feedback: <bullet list>
 
