@@ -54,7 +54,11 @@ This skill has a lighter lifecycle than other hive.* skills — it skips the com
    git add -A
    git commit -m "address review: <summary>"
    git push
-   gh pr comment <number> --body "Addressed feedback: <bullet list>"
+   CLAUDE_SESSION=$(/bin/ls -1t ~/.claude/projects/$(echo "$PWD" | tr '/' '-')/*.jsonl 2>/dev/null | head -1 | sed 's/.*\///' | sed 's/\.jsonl$//')
+   gh pr comment <number> --body "Addressed feedback: <bullet list>
+
+   ---
+   Session: \`$CLAUDE_SESSION\` · Resume: \`claude --resume $CLAUDE_SESSION\`"
    ```
 
 9. **Update beads**: `bd comments add <id> "Addressed PR #<number> feedback. Changes: <summary>"`
