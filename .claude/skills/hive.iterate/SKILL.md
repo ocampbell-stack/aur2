@@ -27,12 +27,21 @@ This skill has a lighter lifecycle than other hive.* skills — it skips the com
 
 ## Core Work
 
-3. **Identify the PR** — from input, or detect from branch:
+3. **Identify the PR** — from input (PR number or URL). If not provided, attempt detection from current branch:
    ```bash
    gh pr list --head $(git branch --show-current) --json number,url
    ```
 
-4. **Ensure correct branch** — check out the feature branch if needed.
+4. **Check out the PR's branch**:
+   ```bash
+   PR_BRANCH=$(gh pr view <number> --json headRefName -q .headRefName)
+   CURRENT=$(git branch --show-current)
+   if [ "$CURRENT" != "$PR_BRANCH" ]; then
+     git fetch origin
+     git checkout "$PR_BRANCH"
+   fi
+   ```
+   If checkout fails because the branch is checked out in another worktree, tell the user to run `./scripts/cleanup.sh {agent}` from the Command Post to free it.
 
 5. **Read feedback**:
    ```bash
@@ -54,12 +63,13 @@ This skill has a lighter lifecycle than other hive.* skills — it skips the com
    git add -A
    git commit -m "address review: <summary>"
    git push
-   # Grab active session UUID from Claude Code's local session storage (see protocols/workflow.md Step 8.3)
+   # Session and context capture (see protocols/workflow.md Step 8.3)
    CLAUDE_SESSION=$(/bin/ls -1t ~/.claude/projects/$(echo "$PWD" | tr '/' '-')/*.jsonl 2>/dev/null | head -1 | sed 's/.*\///' | sed 's/\.jsonl$//')
+   AGENT_NAME=$(basename "$PWD" | sed 's/^agent-//')
    gh pr comment <number> --body "Addressed feedback: <bullet list>
 
    ---
-   Session: \`$CLAUDE_SESSION\` · Resume: \`claude --resume $CLAUDE_SESSION\`"
+   Agent: \`$AGENT_NAME\` · Session: \`$CLAUDE_SESSION\` · Resume: \`cd $PWD && claude --resume $CLAUDE_SESSION\`"
    ```
 
 9. **Update beads**: `bd comments add <id> "Addressed PR #<number> feedback. Changes: <summary>"`
