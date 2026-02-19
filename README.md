@@ -120,7 +120,7 @@ Aur2 provides skills across two namespaces:
 | `/hive.groom` | Audit KB for staleness, inconsistencies, and gaps |
 | `/hive.deliver` | Produce external deliverables grounded in KB context |
 | `/hive.advise` | Analyze communications and recommend actions |
-| `/hive.iterate` | Address PR review feedback on an existing feature branch |
+| `/hive.iterate` | Iterate on prior work — address PR feedback or follow up on closed/merged PRs |
 
 ### Context Injection
 

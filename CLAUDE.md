@@ -113,7 +113,7 @@ The init process:
 | `hive.groom` | Audit KB for staleness, inconsistencies, and gaps (hive-mind) |
 | `hive.deliver` | Produce external deliverables grounded in KB context (hive-mind) |
 | `hive.advise` | Analyze communications and recommend actions (hive-mind) |
-| `hive.iterate` | Address PR review feedback on an existing feature branch (hive-mind) |
+| `hive.iterate` | Iterate on prior work — address PR feedback or follow up on closed/merged PRs (hive-mind) |
 
 > `hive.*` skills are designed for the [hive-mind](https://github.com/ocampbell-stack/hive-mind) repo but are maintained here as the source of truth.
 
